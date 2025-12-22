@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3: Tatacara Pengauditan EKSA</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-pop-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* 3D Flip Card Styles - Robust Fix */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+        .backface-hidden { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
+        
+        /* Custom scrollbar */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+    <div id="root" class="flex-grow flex flex-col"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- ICONS ---
+        const Icons = {
+            FileText: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>,
+            CheckSquare: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
+            Briefcase: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
+            Users: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+            Award: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>,
+            ArrowRight: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+            AlertCircle: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
+            Map: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
+            Clock: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+            ChevronLeft: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+            RotateCcw: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>,
+            Lightbulb: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 12 2a4.65 4.65 0 0 0-4.5 8.5c.75.75 1.23 1.51 1.41 2.5"/></svg>,
+            XCircle: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>,
+            Presentation: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+            Info: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
+            Close: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+            Shield: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+            UserCheck: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+        };
+
+        // --- DATA SLAID (26 SLIDES) ---
+        const slideContent = [
+            {
+                title: "1. Pengenalan & Tujuan Panduan",
+                content: "Objektif utama: Menerangkan Tujuan Panduan Audit EKSA sebagai rujukan seragam bagi memastikan penilaian dilaksanakan dengan standard tinggi.",
+                bgGradient: "from-blue-600 to-indigo-700",
+                interactiveItems: [
+                    { label: "Garis Panduan Seragam", detail: "Menyediakan satu set kriteria standard yang diguna pakai oleh semua agensi untuk mengelakkan percanggahan.", icon: Icons.FileText },
+                    { label: "Etika Penilaian", detail: "Memastikan auditor menjalankan tugas dengan integriti, adil, dan tanpa prejudis semasa pengauditan.", icon: Icons.Users },
+                    { label: "Standard Tinggi", detail: "Mengekalkan kualiti persekitaran kondusif yang setaraf dengan amalan terbaik antarabangsa.", icon: Icons.Award }
+                ]
+            },
+            {
+                title: "2. Cabaran Mitos: Jalan Pintas Audit?",
+                type: "interactive",
+                content: "Uji kefahaman awal anda tentang prosedur wajib EKSA.",
+                bgGradient: "from-purple-600 to-violet-700",
+                question: "Agensi dibenarkan memohon audit persijilan serta-merta tanpa perlu melaksanakan Audit Dalam (Kendiri) terlebih dahulu.",
+                answerKey: "Mitos",
+                feedbackCorrect: "Tepat! Tiada jalan pintas dalam EKSA. Tatacara mewajibkan Audit Dalam (Kendiri) dengan markah minimum 80% sebagai 'tiket' kelayakan.",
+                feedbackWrong: "Kurang Tepat. Ini adalah MITOS. Syarat WAJIB sebelum permohonan adalah melaksanakan Audit Dalam terlebih dahulu."
+            },
+            {
+                title: "3. Carta Alir Pengauditan",
+                content: "Memahami kitaran lengkap proses pengauditan dari awal hingga akhir.",
+                bgGradient: "from-cyan-600 to-teal-600",
+                interactiveItems: [
+                    { label: "1. Audit Dalam", detail: "Laksanakan audit kendiri dan pastikan markah melebihi 80%.", icon: Icons.CheckSquare },
+                    { label: "2. Permohonan", detail: "Hantar surat rasmi permohonan kepada Urus Setia EKSA.", icon: Icons.FileText },
+                    { label: "3. Auditan", detail: "Lawatan tapak oleh Panel Juruaudit bertauliah.", icon: Icons.Users },
+                    { label: "4. Laporan", detail: "Kemukakan laporan penambahbaikan dalam tempoh ditetapkan.", icon: Icons.Briefcase },
+                    { label: "5. Persijilan", detail: "Penerimaan Sijil EKSA yang sah laku selama 2 tahun.", icon: Icons.Award }
+                ]
+            },
+            {
+                title: "4. Langkah 1: Persediaan Agensi",
+                content: "Fasa kritikal sebelum memohon audit. Pastikan asas kukuh.",
+                bgGradient: "from-teal-600 to-emerald-600",
+                interactiveItems: [
+                    { label: "Jawatankuasa", detail: "Menubuhkan Jawatankuasa Pelaksana dan Induk EKSA yang aktif.", icon: Icons.Users },
+                    { label: "Audit Dalam", detail: "Wajib laksanakan Self-Audit. Markah lulus: 80% ke atas.", icon: Icons.CheckSquare },
+                    { label: "Bukti", detail: "Sediakan laporan bergambar (Sebelum & Selepas) sebagai bukti usaha.", icon: Icons.FileText }
+                ]
+            },
+            {
+                title: "5. Langkah 2: Permohonan",
+                content: "Prosedur rasmi penghantaran permohonan audit.",
+                bgGradient: "from-amber-600 to-orange-600",
+                interactiveItems: [
+                    { label: "Surat Rasmi", detail: "Ditujukan kepada Urus Setia EKSA / Badan Pengiktirafan.", icon: Icons.FileText },
+                    { label: "Tempoh", detail: "Hantar sekurang-kurangnya 1 BULAN sebelum tarikh cadangan audit.", icon: Icons.Clock },
+                    { label: "Lampiran", detail: "Mesti serta Laporan Audit Dalam & Gambar Penambahbaikan.", icon: Icons.Briefcase }
+                ]
+            },
+            {
+                title: "6. Langkah 3: Hari Pengauditan",
+                content: "Atur cara lazim semasa hari lawatan juruaudit.",
+                bgGradient: "from-red-600 to-rose-600",
+                interactiveItems: [
+                    { label: "Mesyuarat Pembukaan", detail: "Sesi taklimat ringkas oleh Agensi kepada Juruaudit mengenai latar belakang jabatan.", icon: Icons.Presentation },
+                    { label: "Lawatan Tapak", detail: "Juruaudit melawat zon-zon untuk menilai pematuhan kriteria fizikal.", icon: Icons.Map },
+                    { label: "Semakan Dokumen", detail: "Memeriksa fail, rekod aktiviti, minit mesyuarat, dan dokumentasi sudut.", icon: Icons.FileText },
+                    { label: "Mesyuarat Penutup", detail: "Sesi rumusan penemuan (Exit Conference) dan penyampaian teguran.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "7. Langkah 4: Pasca Audit",
+                content: "Tindakan susulan selepas audit selesai.",
+                bgGradient: "from-indigo-600 to-purple-600",
+                interactiveItems: [
+                    { label: "Laporan Penambahbaikan", detail: "Perlu disediakan dalam format bergambar dan dihantar SEGERA.", icon: Icons.FileText },
+                    { label: "Tempoh Hantar", detail: "Biasanya dalam tempoh 1 hingga 3 hari bekerja selepas audit.", icon: Icons.Clock },
+                    { label: "Keputusan", detail: "Jawatankuasa Persijilan akan menilai laporan sebelum meluluskan sijil.", icon: Icons.Award },
+                    { label: "Tempoh Sah Laku", detail: "Sijil EKSA sah selama 2 TAHUN dari tarikh lulus.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "8. Tujuan Panduan Audit",
+                content: "Kenapa kita perlukan panduan audit yang spesifik?",
+                bgGradient: "from-sky-600 to-blue-600",
+                interactiveItems: [
+                    { label: "Rujukan Seragam", detail: "Mengelakkan tafsiran berbeza antara auditor mengenai kriteria penilaian.", icon: Icons.FileText },
+                    { label: "Mudah Nilai", detail: "Menyediakan senarai semak (checklist) yang jelas untuk setiap komponen.", icon: Icons.CheckSquare },
+                    { label: "Integriti", detail: "Memastikan proses audit telus dan boleh dipertahankan.", icon: Icons.Award }
+                ]
+            },
+            {
+                title: "9. Latar Belakang",
+                content: "Sejarah evolusi dari 5S ke EKSA.",
+                bgGradient: "from-slate-600 to-gray-700",
+                interactiveItems: [
+                    { label: "Evolusi 5S", detail: "Bermula dengan Amalan 5S Jepun (Seiri, Seiton, Seiso, Seiketsu, Shitsuke).", icon: Icons.RotateCcw },
+                    { label: "Penjenamaan Semula", detail: "Dijenamakan semula sebagai EKSA untuk kesesuaian Sektor Awam Malaysia.", icon: Icons.Lightbulb },
+                    { label: "Fokus Baru", detail: "Menambah elemen Imej Korporat, Kreativiti & Inovasi, dan Go Green.", icon: Icons.Award }
+                ]
+            },
+            {
+                title: "10. Enam Komponen Utama",
+                content: "Skop penilaian EKSA yang menyeluruh.",
+                bgGradient: "from-green-600 to-emerald-700",
+                interactiveItems: [
+                    { label: "A - Keperluan Utama", detail: "Polisi, Jawatankuasa, Dokumentasi.", icon: Icons.FileText },
+                    { label: "B - Ruang Kerja", detail: "Fizikal pejabat, susun atur meja, bilik fail.", icon: Icons.Briefcase },
+                    { label: "C - Tempat Umum", detail: "Lobi, Kaunter, Bilik Mesyuarat, Tandas.", icon: Icons.Users },
+                    { label: "D - Keselamatan", detail: "Pelan kecemasan, pemadam api, pendawaian.", icon: Icons.AlertCircle },
+                    { label: "E - Persekitaran", detail: "Parkir, landskap, pagar (Luar bangunan).", icon: Icons.Map },
+                    { label: "F - Tempat Khusus", detail: "Mengikut fungsi agensi (Cth: Sekolah, Hospital).", icon: Icons.Award }
+                ]
+            },
+            {
+                title: "11. Komponen A: Dasar",
+                content: "Aspek tadbir urus dan pengurusan.",
+                bgGradient: "from-red-600 to-orange-700",
+                interactiveItems: [
+                    { label: "A1 Dasar", detail: "Mesti ada Polisi dan Garis Panduan EKSA agensi.", icon: Icons.FileText },
+                    { label: "A2 Jawatankuasa", detail: "Carta organisasi pelaksana yang kemas kini.", icon: Icons.Users },
+                    { label: "A4 Audit Dalam", detail: "Laporan pelaksanaan audit kendiri secara berkala.", icon: Icons.CheckSquare },
+                    { label: "A7 Go Green", detail: "Inisiatif hijau seperti kitar semula dan penjimatan tenaga.", icon: Icons.Lightbulb }
+                ]
+            },
+            {
+                title: "12. Komponen B: Fizikal",
+                content: "Keadaan infrastruktur pejabat.",
+                bgGradient: "from-blue-600 to-cyan-600",
+                interactiveItems: [
+                    { label: "Lantai", detail: "Bersih, selamat, tiada sampah, tidak licin.", icon: Icons.CheckSquare },
+                    { label: "Dinding & Siling", detail: "Tiada kesan kotoran, sawang, atau retakan ketara.", icon: Icons.CheckSquare },
+                    { label: "Lampu", detail: "Semua mentol berfungsi, tiada yang berkelip atau terbakar.", icon: Icons.Lightbulb }
+                ]
+            },
+            {
+                title: "13. Komponen B: Ruang Kerja",
+                content: "Kekemasan tempat kerja individu dan gunasama.",
+                bgGradient: "from-blue-700 to-indigo-700",
+                interactiveItems: [
+                    { label: "Meja Kerja", detail: "Konsep meja kemas. Tiada fail bertimbun. Label laci seragam.", icon: Icons.Briefcase },
+                    { label: "Bilik Fail", detail: "Sistem fail teratur, ada indeks, mudah dicapai (30 saat).", icon: Icons.FileText },
+                    { label: "Bilik Server", detail: "Suhu terkawal, tiada habuk, pengurusan kabel kemas.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "14. Komponen C: Umum",
+                content: "Imej korporat di mata pelanggan.",
+                bgGradient: "from-violet-600 to-purple-600",
+                interactiveItems: [
+                    { label: "Lobi Utama", detail: "Ceria, info korporat jelas, buku pelawat disediakan.", icon: Icons.Users },
+                    { label: "Kaunter", detail: "Sistem maklum balas pelanggan, piagam pelanggan dipapar.", icon: Icons.Briefcase },
+                    { label: "Ruang Menunggu", detail: "Selesa, bahan bacaan disediakan dan tersusun.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "15. Komponen C: Fasiliti",
+                content: "Kemudahan untuk keselesaan warga.",
+                bgGradient: "from-fuchsia-600 to-pink-600",
+                interactiveItems: [
+                    { label: "Bilik Mesyuarat", detail: "Etika penggunaan dipapar, peralatan berfungsi.", icon: Icons.Users },
+                    { label: "Pantri", detail: "Bersih, tiada sisa makanan, pinggan mangkuk tersusun.", icon: Icons.CheckSquare },
+                    { label: "Tandas", detail: "Lantai kering, tiada bau, pam berfungsi, ada jadual cuci.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "16. Komponen D: Keselamatan",
+                content: "Aspek kritikal keselamatan nyawa dan harta benda.",
+                bgGradient: "from-rose-600 to-red-700",
+                interactiveItems: [
+                    { label: "Pelan Kecemasan", detail: "Laluan kecemasan dan tempat berkumpul dipaparkan jelas.", icon: Icons.Map },
+                    { label: "Pemadam Api", detail: "Tidak luput tarikh, digantung, pin keselamatan ada.", icon: Icons.AlertCircle },
+                    { label: "Kunci", detail: "Buku log pergerakan kunci, label kunci, peti keselamatan.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "17. Komponen E: Luar",
+                content: "Kawasan persekitaran luar bangunan.",
+                bgGradient: "from-green-600 to-lime-600",
+                interactiveItems: [
+                    { label: "Parkir", detail: "Garisan petak jelas, petak OKU dan pelawat disediakan.", icon: Icons.Map },
+                    { label: "Landskap", detail: "Rumput dipotong pendek, tiada air bertakung, pokok terurus.", icon: Icons.CheckSquare },
+                    { label: "Pondok Pengawal", detail: "Kemas, bersih, rekod pelawat sistematik.", icon: Icons.Briefcase }
+                ]
+            },
+            {
+                title: "18. Komponen F: Pengenalan",
+                content: "Kriteria khusus mengikut jenis agensi.",
+                bgGradient: "from-gray-600 to-slate-700",
+                interactiveItems: [
+                    { label: "Fleksibiliti", detail: "Tidak semua agensi ada Komponen F. Ia bergantung pada fungsi.", icon: Icons.Lightbulb },
+                    { label: "Contoh", detail: "Sekolah, Hospital, Balai Polis, Mahkamah, Masjid.", icon: Icons.Briefcase }
+                ]
+            },
+            {
+                title: "19. F: Sekolah & Latihan",
+                content: "Persekitaran pembelajaran kondusif.",
+                bgGradient: "from-yellow-600 to-orange-600",
+                interactiveItems: [
+                    { label: "Bilik Darjah", detail: "Jadual waktu, pelan kebakaran, susunan meja teratur.", icon: Icons.Users },
+                    { label: "Makmal", detail: "Peraturan keselamatan makmal, label bahan kimia.", icon: Icons.AlertCircle },
+                    { label: "Bengkel", detail: "Garisan keselamatan lantai, shadow board untuk alatan.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "20. F: Kesihatan & Keselamatan",
+                content: "Agensi kritikal.",
+                bgGradient: "from-blue-800 to-slate-800",
+                interactiveItems: [
+                    { label: "Hospital", detail: "Pengasingan sisa klinikal (Tong Kuning), ubat tidak luput.", icon: Icons.AlertCircle },
+                    { label: "Balai Polis", detail: "Stor barang kes (exhibit) berlabel dan berindeks.", icon: Icons.Briefcase },
+                    { label: "Lokap", detail: "Bersih, selamat, pengudaraan baik.", icon: Icons.CheckSquare }
+                ]
+            },
+            {
+                title: "21. Etika Auditor: Objektif",
+                content: "Garis panduan untuk memastikan penilaian dilaksanakan dengan profesional, beretika, dan mengikut standard yang ditetapkan.",
+                bgGradient: "from-stone-700 to-neutral-800",
+                interactiveItems: [
+                    { label: "Panduan Utama", detail: "Sebagai rujukan utama bagi melaksanakan penilaian secara beretika.", icon: Icons.FileText },
+                    { label: "Jaminan Kualiti", detail: "Memastikan hasil kerja audit dilaksanakan mengikut standard yang ditetapkan.", icon: Icons.Award },
+                    { label: "Kredibiliti", detail: "Memelihara nama baik dan kepercayaan terhadap profesion pengauditan.", icon: Icons.Shield }
+                ]
+            },
+            {
+                title: "22. Nilai Teras 1: Profesional & Integriti",
+                content: "Asas keperibadian juruaudit yang unggul.",
+                bgGradient: "from-blue-800 to-indigo-900",
+                interactiveItems: [
+                    { label: "Profesional", detail: "Berkelakuan profesional setiap masa, kreatif, inovatif, dan berpakaian kemas.", icon: Icons.UserCheck },
+                    { label: "Integriti", detail: "Telus, amanah, berakauntabiliti, serta berpegang teguh kepada kebenaran.", icon: Icons.Shield },
+                    { label: "Keperibadian", detail: "Mempunyai tingkah laku mulia, bersih, dan boleh dicontohi.", icon: Icons.Users }
+                ]
+            },
+            {
+                title: "23. Nilai Teras 2: Kompetensi & Tadbir Urus",
+                content: "Keupayaan intelek dan pengurusan audit yang cekap.",
+                bgGradient: "from-teal-700 to-emerald-800",
+                interactiveItems: [
+                    { label: "Kompetensi", detail: "Meningkatkan pengetahuan berterusan, peka dengan persekitaran, dan sentiasa kemas kini maklumat.", icon: Icons.Lightbulb },
+                    { label: "Tadbir Urus Pintar", detail: "Memahami persekitaran auditi, membuat perancangan teliti, dan mengkaji semula laporan.", icon: Icons.Briefcase },
+                    { label: "Bimbingan", detail: "Memberi panduan, latihan, dan penyeliaan kepada pasukan audit.", icon: Icons.Users }
+                ]
+            },
+            {
+                title: "24. Nilai Teras 3: Disiplin & Keadilan",
+                content: "Kawalan diri dan prinsip kesaksamaan.",
+                bgGradient: "from-purple-800 to-violet-900",
+                interactiveItems: [
+                    { label: "Disiplin Diri", detail: "Menghindarkan perilaku negatif, menjaga imej, dan berkomunikasi dengan berhemah.", icon: Icons.UserCheck },
+                    { label: "Bebas & Adil", detail: "Bertindak secara bebas tanpa pengaruh luar, adil, dan saksama dalam penilaian.", icon: Icons.CheckSquare },
+                    { label: "Kerja Berpasukan", detail: "Memupuk semangat kerjasama yang tinggi dalam pasukan audit.", icon: Icons.Users }
+                ]
+            },
+            {
+                title: "25. Kesimpulan",
+                content: "Rumusan akhir modul.",
+                bgGradient: "from-slate-700 to-gray-800",
+                interactiveItems: [
+                    { label: "Budaya Kerja", detail: "EKSA bukan sekadar pertandingan, ia budaya kerja berprestasi tinggi.", icon: Icons.Award },
+                    { label: "Kaizen", detail: "Penambahbaikan berterusan adalah kunci kejayaan EKSA.", icon: Icons.RotateCcw },
+                    { label: "Imej", detail: "Persekitaran kondusif meningkatkan keyakinan pelanggan.", icon: Icons.Users }
+                ]
+            }
+        ];
+
+        // --- DATA FLASHCARDS (30 KAD) ---
+        const flashcardsData = [
+            { q: "Maksud EKSA?", a: "Ekosistem Kondusif Sektor Awam" },
+            { q: "Jumlah Komponen?", a: "6 (A, B, C, D, E, F)" },
+            { q: "Komponen A?", a: "Keperluan Utama Pelaksanaan" },
+            { q: "Komponen B?", a: "Ruang Tempat Kerja" },
+            { q: "Komponen C?", a: "Tempat Umum" },
+            { q: "Komponen D?", a: "Keselamatan Persekitaran" },
+            { q: "Komponen E?", a: "Kawasan Persekitaran" },
+            { q: "Komponen F?", a: "Tempat Khusus" },
+            { q: "Markah Lulus Audit Dalam?", a: "80% dan ke atas" },
+            { q: "Tempoh Sijil?", a: "2 Tahun" },
+            { q: "Elemen 'Go Green'?", a: "Jimat tenaga, Kitar semula, Hijaukan pejabat" },
+            { q: "Apa itu Zon?", a: "Kawasan kecil yang dipecahkan untuk pengurusan EKSA" },
+            { q: "Tujuan Sudut Kreativiti?", a: "Menggalakkan inovasi menggunakan bahan terpakai" },
+            { q: "Warna Label Kitar Semula?", a: "Biru (Kertas), Coklat (Kaca), Jingga (Plastik/Aluminium)" },
+            { q: "Suhu aircond disaran?", a: "24°C - 26°C" },
+            { q: "Konsep Fail?", a: "Label Jelas, Indeks, Mudah Capai (30 saat)" },
+            { q: "Ciri Stor Alat Tulis?", a: "Rekod Stok (Kad Petak), FIFO, Bersih" },
+            { q: "Ciri Bilik Server?", a: "Sejuk, Bersih, Tiada Habuk, Keselamatan ketat" },
+            { q: "Etika di Meja Kerja?", a: "Tiada barang peribadi berlebihan, Kemas sebelum balik" },
+            { q: "Bilik Pemandu?", a: "Perlu selesa, kemas, ada info jadual pergerakan" },
+            { q: "Pantri?", a: "Tiada pinggan kotor dalam sinki, tiada makanan basi" },
+            { q: "Tandas?", a: "Lantai kering, pam berfungsi, tiada bau" },
+            { q: "Surau?", a: "Ada arah kiblat, telekung/sejadah bersih & tersusun" },
+            { q: "Alat Pemadam Api?", a: "Tidak luput tarikh, pin keselamatan ada, nozzle baik" },
+            { q: "Laluan Kecemasan?", a: "Tiada halangan, tanda arah 'KELUAR' menyala" },
+            { q: "Pengurusan Kunci?", a: "Ada buku log keluar masuk, disimpan dalam peti keselamatan" },
+            { q: "Parkir OKU?", a: "Wajib disediakan, saiz lebih besar, dekat pintu masuk" },
+            { q: "Sisa Klinikal (Hospital)?", a: "Tong Kuning (Sisa Biohazard)" },
+            { q: "Tempoh Laporan Penambahbaikan?", a: "1 hari selepas auditan" },
+            { q: "Objektif Exit Conference?", a: "Makluman penemuan audit kepada agensi" }
+        ];
+
+        // --- 50 SOALAN KUIZ ---
+        const quizQuestions = [
+            // --- UMUM (1-5) ---
+            { q: "EKSA adalah singkatan bagi?", options: ["Ekosistem Kondusif Sektor Awam", "Ekonomi Kondusif Sektor Awam", "Etika Kerja Sektor Awam", "Evolusi Kualiti Sektor Awam"], a: 0, img: "https://placehold.co/600x300/1e293b/FFF?text=Definisi+EKSA" },
+            { q: "Berapakah jumlah komponen utama dalam penilaian EKSA?", options: ["4", "5", "6", "7"], a: 2, img: "https://placehold.co/600x300/1e293b/FFF?text=Bilangan+Komponen" },
+            { q: "Permohonan pengauditan perlu dihantar berapa bulan sebelum tarikh audit?", options: ["1 bulan", "2 bulan", "3 bulan", "6 bulan"], a: 0, img: "https://placehold.co/600x300/1e293b/FFF?text=Tempoh+Permohonan" },
+            { q: "Berapakah markah minimum Audit Dalam untuk melayakkan permohonan audit persijilan?", options: ["70%", "75%", "80%", "85%"], a: 2, img: "https://placehold.co/600x300/1e293b/FFF?text=Markah+Lulus+Audit" },
+            { q: "Tempoh sah laku sijil EKSA adalah selama?", options: ["1 Tahun", "2 Tahun", "3 Tahun", "5 Tahun"], a: 1, img: "https://placehold.co/600x300/1e293b/FFF?text=Sah+Laku+Sijil" },
+            
+            // --- KOMPONEN A (6-12) ---
+            { q: "Komponen A memfokuskan kepada?", options: ["Tempat Umum", "Keperluan Utama Pelaksanaan", "Keselamatan", "Ruang Kerja"], a: 1, img: "https://placehold.co/600x300/dc2626/FFF?text=Fokus+Komponen+A" },
+            { q: "Manakah antara berikut BUKAN elemen dalam Komponen A?", options: ["Dasar EKSA", "Jawatankuasa Pelaksana", "Kebersihan Tandas", "Go Green"], a: 2, img: "https://placehold.co/600x300/dc2626/FFF?text=Elemen+Komponen+A" },
+            { q: "Apakah tujuan Jawatankuasa Pelaksana?", options: ["Menghias pejabat", "Merancang pelaksanaan EKSA", "Menjaga parkir", "Membuat kopi"], a: 1, img: "https://placehold.co/600x300/dc2626/FFF?text=Tujuan+Jawatankuasa" },
+            { q: "Di bawah elemen 'Go Green', apakah yang perlu dilaksanakan?", options: ["Membeli pokok mahal", "Penjimatan tenaga & kitar semula", "Mengecat dinding hijau", "Memakai baju hijau"], a: 1, img: "https://placehold.co/600x300/16a34a/FFF?text=Go+Green" },
+            { q: "Sudut Kreativiti & Inovasi bertujuan untuk?", options: ["Pameran lukisan", "Menggalakkan idea warga guna bahan terpakai", "Tempat bermain", "Hiasan semata-mata"], a: 1, img: "https://placehold.co/600x300/f59e0b/FFF?text=Inovasi+Kreativiti" },
+            { q: "Pelaksanaan EKSA perlu mendapat sokongan daripada?", options: ["Pengurusan Atasan", "Kerani sahaja", "Pewani sahaja", "Kontraktor"], a: 0, img: "https://placehold.co/600x300/dc2626/FFF?text=Sokongan+Pengurusan" },
+            { q: "Analisis penjimatan (kos/masa) adalah sebahagian daripada kriteria?", options: ["A1", "A5", "A7 (Go Green)", "B2"], a: 2, img: "https://placehold.co/600x300/16a34a/FFF?text=Analisis+Penjimatan" },
+
+            // --- KOMPONEN B (13-20) ---
+            { q: "Komponen B menilai aspek apa?", options: ["Kawasan Luar", "Tempat Khusus", "Ruang Tempat Kerja", "Keselamatan"], a: 2, img: "https://placehold.co/600x300/2563eb/FFF?text=Fokus+Komponen+B" },
+            { q: "Bagaimanakah keadaan lantai yang mematuhi piawaian EKSA?", options: ["Berkarpet tebal", "Selamat, tidak licin & tiada sampah", "Berwarna warni", "Dipenuhi kotak"], a: 1, img: "https://placehold.co/600x300/2563eb/FFF?text=Keadaan+Lantai" },
+            { q: "Peralatan di atas meja kerja (workstation) perlulah?", options: ["Banyak & padat", "Disusun kemas & perlu sahaja", "Semua barang peribadi", "Tiada apa-apa"], a: 1, img: "https://placehold.co/600x300/2563eb/FFF?text=Meja+Kerja" },
+            { q: "Bilik Fail perlu mempunyai?", options: ["Sistem indeks & label jelas", "TV", "Katil", "Makanan"], a: 0, img: "https://placehold.co/600x300/2563eb/FFF?text=Bilik+Fail" },
+            { q: "Ciri utama Bilik Server yang baik adalah?", options: ["Sejuk & bersih dari habuk", "Panas & lembap", "Tempat simpan fail lama", "Boleh makan di dalam"], a: 0, img: "https://placehold.co/600x300/2563eb/FFF?text=Bilik+Server" },
+            { q: "Wayar dan soket elektrik hendaklah?", options: ["Berserabut", "Disorok bawah karpet", "Dikemas rapi & dilabel", "Dibiarkan berjuntai"], a: 2, img: "https://placehold.co/600x300/2563eb/FFF?text=Pengurusan+Kabel" },
+            { q: "Apakah yang perlu ada pada laci meja pegawai?", options: ["Sampah", "Label kandungan laci", "Makanan", "Baju"], a: 1, img: "https://placehold.co/600x300/2563eb/FFF?text=Laci+Meja" },
+            { q: "Stor peralatan pejabat perlu mengamalkan konsep?", options: ["FIFO (First In First Out)", "LIFO", "Main campak", "Simpan sampai luput"], a: 0, img: "https://placehold.co/600x300/2563eb/FFF?text=Stor+Peralatan" },
+
+            // --- KOMPONEN C (21-28) ---
+            { q: "Apakah elemen penting di Lobi Utama?", options: ["Mesin basuh", "Buku Kedatangan Pelawat & Direktori", "Katil rehat", "Dapur"], a: 1, img: "https://placehold.co/600x300/7c3aed/FFF?text=Lobi+Utama" },
+            { q: "Di Kaunter Utama, apakah yang perlu disediakan?", options: ["Sistem maklum balas pelanggan", "TV besar", "Radio kuat", "Sofa tidur"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Kaunter+Utama" },
+            { q: "Tandas yang bertaraf EKSA mestilah?", options: ["Wangi, kering & lengkap kemudahan", "Basah & licin", "Tiada tisu", "Gelap"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Kebersihan+Tandas" },
+            { q: "Bilik Mesyuarat perlu memaparkan?", options: ["Etika penggunaan bilik", "Gambar artis", "Iklan jualan", "Menu makanan"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Bilik+Mesyuarat" },
+            { q: "Pantri pejabat hendaklah?", options: ["Penuh pinggan kotor", "Bersih, tiada sisa makanan & tersusun", "Tempat merokok", "Tempat tidur"], a: 1, img: "https://placehold.co/600x300/7c3aed/FFF?text=Pantri" },
+            { q: "Surau perlu menyediakan?", options: ["Arah kiblat & sejadah bersih", "TV", "Radio", "Komputer"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Surau" },
+            { q: "Ruang menunggu tetamu perlu?", options: ["Selesa & ada bahan bacaan", "Tiada kerusi", "Panas", "Kotor"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Ruang+Menunggu" },
+            { q: "Perpustakaan atau Pusat Sumber perlu?", options: ["Bising", "Sistem rekod pinjaman teratur", "Gelap", "Berhabuk"], a: 1, img: "https://placehold.co/600x300/7c3aed/FFF?text=Pusat+Sumber" },
+
+            // --- KOMPONEN D (29-35) ---
+            { q: "Apakah perkara utama dalam Pelan Tindakan Kecemasan?", options: ["Menu jamuan", "Laluan kecemasan & tempat berkumpul", "Senarai gaji", "Jadual bercuti"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pelan+Kecemasan" },
+            { q: "Alat pemadam api mestilah?", options: ["Diselenggara & tidak luput tarikh", "Disorok", "Kosong", "Berkarat"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pemadam+Api" },
+            { q: "Laluan kecemasan hendaklah?", options: ["Dihalang kotak", "Bebas daripada halangan", "Gelap", "Sempit"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Laluan+Kecemasan" },
+            { q: "Pengurusan kunci pejabat memerlukan?", options: ["Disimpan dalam poket", "Buku log, label & peti keselamatan", "Diletak atas meja", "Dibiarkan di pintu"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pengurusan+Kunci" },
+            { q: "Lampu kecemasan (Emergency Light) perlu?", options: ["Berfungsi jika tiada elektrik", "Warna warni", "Berkelip-kelip", "Dipadam sentiasa"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Lampu+Kecemasan" },
+            { q: "Pendawaian elektrik yang selamat adalah?", options: ["Kemas, tidak pecah & diikat rapi", "Terdedah", "Bersambung-sambung berlebihan", "Basah"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pendawaian+Elektrik" },
+            { q: "Tanda arah KELUAR (EXIT) perlu?", options: ["Disorok", "Jelas & menyala", "Kecil", "Warna hitam"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Tanda+KELUAR" },
+
+            // --- KOMPONEN E (36-42) ---
+            { q: "Tempat meletak kenderaan perlu mempunyai?", options: ["Garisan petak yang jelas", "Lubang", "Semak samun", "Gerai jualan"], a: 0, img: "https://placehold.co/600x300/15803d/FFF?text=Tempat+Parkir" },
+            { q: "Pondok pengawal keselamatan perlu?", options: ["Kotor", "Bersih & ada buku daftar pelawat", "Tiada orang", "Gelap"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Pondok+Pengawal" },
+            { q: "Kawasan persekitaran (landskap) perlu?", options: ["Rumput panjang", "Dijaga rapi & tiada air bertakung", "Penuh sampah", "Gersang"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Landskap" },
+            { q: "Tong sampah di kawasan luar perlu?", options: ["Terbuka", "Bertutup & diselenggara", "Bocor", "Tiada"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Tong+Sampah+Luar" },
+            { q: "Kemudahan untuk OKU di tempat letak kereta adalah?", options: ["Wajib disediakan & dilabel", "Tidak perlu", "Sama dengan orang lain", "Jauh dari pintu masuk"], a: 0, img: "https://placehold.co/600x300/15803d/FFF?text=Parkir+OKU" },
+            { q: "Pagar jabatan hendaklah?", options: ["Berkarat", "Dalam keadaan baik & selamat", "Roboh", "Tiada pagar"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Pagar+Jabatan" },
+            { q: "Lampu jalan di kawasan persekitaran perlu?", options: ["Berfungsi waktu malam", "Rosak", "Malap", "Tiada"], a: 0, img: "https://placehold.co/600x300/15803d/FFF?text=Lampu+Jalan" },
+
+            // --- KOMPONEN F (43-50) ---
+            { q: "Komponen F merujuk kepada?", options: ["Tempat Umum", "Tempat Khusus (ikut agensi)", "Pejabat", "Kantin"], a: 1, img: "https://placehold.co/600x300/be185d/FFF?text=Komponen+F" },
+            { q: "Bagi Sekolah, apakah kriteria penting di Bilik Darjah?", options: ["Jadual waktu & pelan kebakaran dipapar", "Ada aircond", "Ada sofa", "Ada TV"], a: 0, img: "https://placehold.co/600x300/be185d/FFF?text=Bilik+Darjah" },
+            { q: "Di Hospital/Klinik, pengurusan sisa perlu?", options: ["Dicampur aduk", "Diasingkan (Klinikal, Domestik, Tajam)", "Dibuang di sungai", "Dibakar terbuka"], a: 1, img: "https://placehold.co/600x300/be185d/FFF?text=Sisa+Klinikal" },
+            { q: "Di Balai Polis, Stor Barang Kes perlu?", options: ["Ada indeks & label pada setiap barang", "Berselerak", "Bebas keluar masuk", "Gelap"], a: 0, img: "https://placehold.co/600x300/be185d/FFF?text=Stor+Barang+Kes" },
+            { q: "Di Masjid, tempat wuduk perlu?", options: ["Licin", "Mesra OKU/Warga Emas & bersih", "Tiada air", "Jauh"], a: 1, img: "https://placehold.co/600x300/be185d/FFF?text=Tempat+Wuduk" },
+            { q: "Di Mahkamah, Bilik Bicara perlu?", options: ["Kemas & selamat", "Bising", "Kotor", "Penuh fail lama"], a: 0, img: "https://placehold.co/600x300/be185d/FFF?text=Bilik+Bicara" },
+            { q: "Bilik Tahanan (Lokap) perlu memastikan?", options: ["Pengudaraan baik & selamat", "Ada hiburan", "Mewah", "Bebas keluar"], a: 0, img: "https://placehold.co/600x300/be185d/FFF?text=Lokap" },
+            { q: "Bilik Rawatan di Klinik Pergigian perlu?", options: ["Peralatan disteril & tersusun", "Berhabuk", "Peralatan berkarat", "Makan dibenarkan"], a: 0, img: "https://placehold.co/600x300/be185d/FFF?text=Klinik+Gigi" }
+        ];
+
+        // --- SUB-COMPONENTS ---
+
+        const LearningModule = () => {
+            const [slideIndex, setSlideIndex] = useState(0);
+            const [userSelection, setUserSelection] = useState(null); // For Hook Slide
+            const [activePoint, setActivePoint] = useState(null); // For Info Pop-up
+
+            // Hook Interactive Handler
+            const renderHookContent = (slide) => {
+                if (!userSelection) {
+                    return (
+                        <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
+                            <h3 className="text-2xl font-bold text-slate-800">{slide.question}</h3>
+                            <div className="flex gap-4">
+                                <button onClick={() => setUserSelection('Mitos')} className="px-6 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-transform hover:scale-105 shadow-lg">Mitos</button>
+                                <button onClick={() => setUserSelection('Fakta')} className="px-6 py-3 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-transform hover:scale-105 shadow-lg">Fakta</button>
+                            </div>
+                        </div>
+                    );
+                } else {
+                    const isCorrect = userSelection === slide.answerKey;
+                    return (
+                        <div className="flex flex-col items-center justify-center h-full text-center space-y-6 animate-slide-up">
+                            <div className={`px-6 py-2 rounded-full font-bold text-lg mb-4 border flex items-center gap-2 ${isCorrect ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200'}`}>
+                                {isCorrect ? <Icons.CheckSquare size={20}/> : <Icons.XCircle size={20}/>}
+                                {isCorrect ? "Tepat Sekali!" : "Kurang Tepat!"}
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-800 leading-relaxed">{isCorrect ? slide.feedbackCorrect : slide.feedbackWrong}</h3>
+                            <button onClick={() => { setUserSelection(null); if(slideIndex < slideContent.length - 1) setSlideIndex(slideIndex + 1); }} className="mt-6 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors shadow-lg">
+                                Teruskan <Icons.ArrowRight className="inline ml-2"/>
+                            </button>
+                        </div>
+                    );
+                }
+            };
+
+            const currentSlide = slideContent[slideIndex];
+
+            return (
+                <div className="max-w-4xl mx-auto space-y-6 animate-fade-in flex-grow flex flex-col justify-center min-h-[600px] w-full">
+                    <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <Icons.FileText className="text-blue-600" size={24}/>
+                            Slaid Kursus
+                        </h2>
+                        <span className="text-xs font-bold bg-blue-100 text-blue-800 px-3 py-1 rounded-full uppercase">
+                            Slaid {slideIndex + 1} / {slideContent.length}
+                        </span>
+                    </div>
+
+                    <div className="w-full aspect-video bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 relative flex flex-col">
+                        
+                        {/* Slide Grid */}
+                        <div className="flex-grow grid grid-cols-12 h-full">
+                            
+                            {/* LEFT COLUMN: Visual / Pop-up Area */}
+                            <div className={`col-span-5 relative bg-gradient-to-br ${currentSlide.bgGradient || "from-slate-700 to-slate-800"} flex flex-col justify-end p-8 overflow-hidden`}>
+                                
+                                {/* Background Decorative Icon */}
+                                <div className="absolute top-0 left-0 p-6 opacity-10 text-white transition-opacity duration-500">
+                                    <Icons.Presentation size={120} />
+                                </div>
+
+                                {/* Base Title (Visible when no pop-up) */}
+                                <div className={`relative z-10 transition-all duration-300 ${activePoint !== null ? 'opacity-0 translate-y-10' : 'opacity-100 translate-y-0'}`}>
+                                    <div className="w-12 h-1 bg-white/50 mb-4 rounded-full"></div>
+                                    <h3 className="text-2xl lg:text-3xl font-extrabold text-white leading-tight shadow-sm drop-shadow-md">
+                                        {currentSlide.title}
+                                    </h3>
+                                </div>
+
+                                {/* POP-UP CARD OVERLAY */}
+                                {activePoint !== null && currentSlide.interactiveItems && (
+                                    <div className="absolute inset-0 z-20 bg-white/95 backdrop-blur-md p-6 flex flex-col justify-center animate-pop-in text-slate-800 shadow-inner">
+                                        <button 
+                                            onClick={() => setActivePoint(null)}
+                                            className="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors"
+                                        >
+                                            <Icons.XCircle size={28} />
+                                        </button>
+                                        
+                                        <div className="mb-4 text-blue-600">
+                                            {React.createElement(currentSlide.interactiveItems[activePoint].icon, { size: 48 })}
+                                        </div>
+                                        
+                                        <h4 className="text-xl font-bold mb-3 border-b pb-2 border-slate-100">
+                                            {currentSlide.interactiveItems[activePoint].label}
+                                        </h4>
+                                        
+                                        <p className="text-base leading-relaxed text-slate-600">
+                                            {currentSlide.interactiveItems[activePoint].detail}
+                                        </p>
+                                        
+                                        <div className="mt-6 text-center text-xs text-slate-400 font-medium uppercase tracking-widest">
+                                            Klik ikon X untuk tutup
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* RIGHT COLUMN: Interactive List */}
+                            <div className="col-span-7 p-8 bg-white flex flex-col justify-center overflow-y-auto custom-scroll relative">
+                                {currentSlide.type === 'interactive' ? (
+                                    renderHookContent(currentSlide)
+                                ) : (
+                                    <div className="h-full flex flex-col justify-center">
+                                        <p className="text-lg text-slate-700 leading-relaxed mb-8 font-medium border-l-4 border-slate-200 pl-4">
+                                            {currentSlide.content}
+                                        </p>
+
+                                        {currentSlide.interactiveItems && (
+                                            <div className="space-y-3">
+                                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Klik untuk info lanjut:</p>
+                                                {currentSlide.interactiveItems.map((item, i) => (
+                                                    <button
+                                                        key={i}
+                                                        onClick={() => setActivePoint(i)}
+                                                        className={`w-full text-left flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 group ${
+                                                            activePoint === i 
+                                                                ? 'bg-blue-50 border-blue-500 shadow-md transform scale-[1.02]' 
+                                                                : 'bg-white border-slate-100 hover:border-blue-300 hover:shadow-sm hover:bg-slate-50'
+                                                        }`}
+                                                    >
+                                                        <div className={`p-2 rounded-lg transition-colors ${
+                                                            activePoint === i ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:text-blue-600'
+                                                        }`}>
+                                                            <item.icon size={20} />
+                                                        </div>
+                                                        <span className={`font-semibold text-sm ${activePoint === i ? 'text-blue-800' : 'text-slate-700'}`}>
+                                                            {item.label}
+                                                        </span>
+                                                        {activePoint === i && (
+                                                            <div className="ml-auto text-blue-500 animate-pulse">
+                                                                <Icons.ArrowRight size={16} />
+                                                            </div>
+                                                        )}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Navigation Overlay */}
+                        <div className="absolute bottom-6 right-6 flex gap-3 z-10">
+                             <button onClick={() => { setSlideIndex(Math.max(0, slideIndex - 1)); setUserSelection(null); setActivePoint(null); }} disabled={slideIndex === 0} 
+                                className="p-3 rounded-full bg-white/90 shadow-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50 text-slate-700 backdrop-blur-sm transition-all hover:scale-105 active:scale-95">
+                                <Icons.ChevronLeft size={20} />
+                            </button>
+                            <button onClick={() => { setSlideIndex(Math.min(slideContent.length - 1, slideIndex + 1)); setUserSelection(null); setActivePoint(null); }} disabled={slideIndex === slideContent.length - 1}
+                                className="p-3 rounded-full bg-blue-600 shadow-lg shadow-blue-500/30 hover:bg-blue-700 disabled:opacity-50 text-white transition-all hover:scale-105 active:scale-95">
+                                <Icons.ArrowRight size={20} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const FlashcardsModule = () => {
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const [isFlipped, setIsFlipped] = useState(false);
+
+            const nextCard = () => {
+                setIsFlipped(false);
+                setTimeout(() => setCurrentIndex((prev) => (prev + 1) % flashcardsData.length), 300);
+            };
+
+            const prevCard = () => {
+                setIsFlipped(false);
+                setTimeout(() => setCurrentIndex((prev) => (prev - 1 + flashcardsData.length) % flashcardsData.length), 300);
+            };
+
+            return (
+                <div className="max-w-2xl mx-auto animate-fade-in flex flex-col items-center flex-grow justify-center min-h-[600px] w-full">
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-bold text-slate-800">Kad Imbasan Pantas</h2>
+                        <p className="text-slate-500">Klik kad untuk melihat jawapan</p>
+                    </div>
+
+                    <div 
+                        className="relative w-full h-80 perspective-1000 cursor-pointer group mb-8"
+                        onClick={() => setIsFlipped(!isFlipped)}
+                    >
+                        <div className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}>
+                            {/* Back (Answer) */}
+                            <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-3xl shadow-xl flex flex-col items-center justify-center p-8 text-center" style={{transform: "rotateY(180deg)"}}>
+                                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">JAWAPAN</span>
+                                <p className="text-2xl font-medium leading-relaxed">{flashcardsData[currentIndex].a}</p>
+                            </div>
+
+                            {/* Front (Question) */}
+                            <div className="absolute w-full h-full backface-hidden bg-white rounded-3xl shadow-xl border-b-4 border-blue-600 flex flex-col items-center justify-center p-8 text-center hover:shadow-2xl transition-shadow bg-white">
+                                <span className="text-xs font-bold text-blue-500 uppercase tracking-widest mb-4">SOALAN {currentIndex + 1} / {flashcardsData.length}</span>
+                                <h3 className="text-3xl font-bold text-slate-800">{flashcardsData[currentIndex].q}</h3>
+                                <div className="mt-8 text-slate-400 text-sm flex items-center gap-2">
+                                    <Icons.RotateCcw size={16}/> Klik untuk pusing
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                        <button onClick={prevCard} className="px-6 py-3 rounded-xl font-bold bg-white text-slate-700 shadow border border-slate-200 hover:bg-slate-50">
+                            Sebelumnya
+                        </button>
+                        <button onClick={nextCard} className="px-6 py-3 rounded-xl font-bold bg-blue-600 text-white shadow hover:bg-blue-700">
+                            Seterusnya
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const QuizModule = () => {
+            const [gameState, setGameState] = useState('intro');
+            const [currentQ, setCurrentQ] = useState(0);
+            const [score, setScore] = useState(0);
+            const [timeLeft, setTimeLeft] = useState(1500);
+
+            useEffect(() => {
+                let timer;
+                if (gameState === 'playing' && timeLeft > 0) {
+                    timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+                } else if (timeLeft === 0) {
+                    setGameState('finished');
+                }
+                return () => clearInterval(timer);
+            }, [gameState, timeLeft]);
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            };
+
+            const handleAnswer = (index) => {
+                if (index === quizQuestions[currentQ].a) setScore(score + 1);
+                if (currentQ < quizQuestions.length - 1) setCurrentQ(currentQ + 1);
+                else setGameState('finished');
+            };
+
+            if (gameState === 'intro') return (
+                <div className="max-w-xl mx-auto text-center py-16 px-4 bg-white rounded-2xl shadow-lg border border-slate-100 animate-fade-in flex-grow flex flex-col justify-center min-h-[600px] w-full">
+                    <div className="bg-blue-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Icons.Award className="w-12 h-12 text-blue-600" />
+                    </div>
+                    <h2 className="text-3xl font-extrabold text-slate-800 mb-3">Ujian Kelayakan EKSA</h2>
+                    <p className="text-slate-500 mb-8 text-lg">50 Soalan • 25 Minit • Merangkumi Komponen A-F</p>
+                    <button onClick={() => setGameState('playing')} 
+                        className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-blue-700 hover:shadow-lg hover:-translate-y-1 transition-all w-full sm:w-auto">
+                        Mula Ujian
+                    </button>
+                </div>
+            );
+
+            if (gameState === 'finished') {
+                const percentage = Math.round((score / quizQuestions.length) * 100);
+                const passed = percentage >= 80;
+                return (
+                    <div className="max-w-xl mx-auto text-center py-12 px-6 bg-white rounded-2xl shadow-xl border border-slate-100 animate-fade-in flex-grow flex flex-col justify-center min-h-[600px] w-full">
+                        <h2 className="text-2xl font-bold text-slate-800 mb-6">Keputusan Akhir</h2>
+                        <div className={`text-6xl font-black mb-2 ${passed ? 'text-green-500' : 'text-red-500'}`}>
+                            {percentage}%
+                        </div>
+                        <p className="text-slate-400 font-medium mb-8">Skor: {score} / {quizQuestions.length}</p>
+                        <div className={`p-6 rounded-xl mb-8 ${passed ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}`}>
+                            <h3 className={`text-xl font-bold mb-2 ${passed ? 'text-green-700' : 'text-red-700'}`}>
+                                {passed ? "TAHNIAH! ANDA LULUS" : "GAGAL"}
+                            </h3>
+                            <p className="text-sm opacity-80">
+                                {passed ? "Anda telah menguasai kriteria audit EKSA dengan cemerlang." : "Sila ulangi modul pembelajaran dan cuba lagi."}
+                            </p>
+                        </div>
+                        <button onClick={() => { setGameState('intro'); setCurrentQ(0); setScore(0); setTimeLeft(1500); }} 
+                            className="bg-slate-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-slate-900 w-full">
+                            Kembali ke Menu
+                        </button>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="max-w-2xl mx-auto animate-fade-in flex-grow w-full min-h-[600px] flex flex-col">
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center mb-6 sticky top-20 z-10">
+                        <div className="flex flex-col">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Soalan</span>
+                            <span className="text-2xl font-black text-slate-800">{currentQ + 1} <span className="text-lg text-slate-300 font-normal">/ {quizQuestions.length}</span></span>
+                        </div>
+                        <div className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono font-bold text-lg ${timeLeft < 60 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'}`}>
+                            <Icons.Clock size={20}/>
+                            {formatTime(timeLeft)}
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex-grow flex flex-col">
+                        <div className="h-56 bg-slate-100 relative">
+                            <img src={quizQuestions[currentQ].img} alt="Question Context" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent flex items-end p-6">
+                                <h3 className="text-xl font-bold text-white leading-snug drop-shadow-md">
+                                    {quizQuestions[currentQ].q}
+                                </h3>
+                            </div>
+                        </div>
+                        <div className="p-6 grid gap-3 flex-grow overflow-y-auto custom-scroll">
+                            {quizQuestions[currentQ].options.map((opt, i) => (
+                                <button key={i} onClick={() => handleAnswer(i)} 
+                                    className="text-left p-4 rounded-xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 font-medium text-slate-700 transition-all flex items-center gap-4 group">
+                                    <span className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center text-sm group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                        {String.fromCharCode(65 + i)}
+                                    </span>
+                                    {opt}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('belajar');
+            return (
+                <div className="min-h-screen flex flex-col bg-slate-50">
+                    <nav className="bg-white border-b sticky top-0 z-50 shadow-sm">
+                        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+                            <div className="font-extrabold text-xl flex items-center gap-2 text-slate-900">
+                                <div className="bg-blue-600 p-1.5 rounded-lg text-white shadow-lg shadow-blue-500/30">
+                                    <Icons.Award size={20}/>
+                                </div>
+                                <span className="hidden sm:inline">KURSUS <span className="text-blue-600">EKSA</span> MASTER</span>
+                                <span className="sm:hidden">EKSA</span>
+                            </div>
+                            <div className="flex bg-slate-100 p-1 rounded-xl">
+                                {[
+                                    { id: 'belajar', label: 'Nota', icon: Icons.FileText },
+                                    { id: 'flashcard', label: 'Imbasan', icon: Icons.Briefcase },
+                                    { id: 'kuiz', label: 'Ujian', icon: Icons.CheckSquare }
+                                ].map(tab => (
+                                    <button 
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${
+                                            activeTab === tab.id 
+                                                ? 'bg-white text-blue-600 shadow-md scale-105' 
+                                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/50'
+                                        }`}
+                                    >
+                                        <tab.icon size={18} />
+                                        <span className="hidden sm:inline">{tab.label}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </nav>
+                    <main className="flex-grow p-4 sm:p-6 w-full flex flex-col">
+                        {activeTab === 'belajar' && <LearningModule />}
+                        {activeTab === 'flashcard' && <FlashcardsModule />}
+                        {activeTab === 'kuiz' && <QuizModule />}
+                    </main>
+                    <footer className="bg-white border-t py-8 mt-auto">
+                        <div className="max-w-6xl mx-auto px-4 text-center">
+                            <p className="text-slate-400 text-sm font-medium">© 2025 Modul Latihan Audit EKSA</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Latihan EKSA Sektor Awam</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-pulse-slow { animation: pulseSlow 3s infinite; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseSlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hover-lift { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .hover-lift:hover { transform: translateY(-8px); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- ICONS ---
+        const Icons = {
+            Book: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+            Settings: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.47a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>,
+            CheckCircle: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+            ArrowRight: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+            Award: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>,
+            Play: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        };
+
+        // --- DATA MODUL ---
+        const modules = [
+            {
+                id: 1,
+                title: "Modul 1: Pengenalan & Kesedaran",
+                subtitle: "Asas EKSA",
+                desc: "Memahami evolusi daripada Amalan 5S kepada EKSA dan kepentingan pembudayaan persekitaran kondusif dalam Sektor Awam.",
+                objective: "Memberi pendedahan awal mengenai konsep, prinsip asas, dan faedah pelaksanaan EKSA.",
+                icon: Icons.Book,
+                color: "from-blue-500 to-cyan-500",
+                link: "#" // Gantikan dengan modul1.html
+            },
+            {
+                id: 2,
+                title: "Modul 2: Pelaksanaan EKSA",
+                subtitle: "Praktikal & Fizikal",
+                desc: "Panduan terperinci mengenai aktiviti gotong-royong, pembahagian zon, dan penyediaan sudut-sudut fizikal di tempat kerja.",
+                objective: "Memberi panduan praktikal cara melaksanakan elemen fizikal EKSA di zon dan ruang kerja.",
+                icon: Icons.Settings,
+                color: "from-emerald-500 to-teal-500",
+                link: "#" // Gantikan dengan modul2.html
+            },
+            {
+                id: 3,
+                title: "Modul 3: Audit EKSA",
+                subtitle: "Tatacara & Kriteria",
+                desc: "Memahami prosedur pengauditan, kriteria penilaian (Komponen A-F), dan etika sebagai juruaudit bertauliah.",
+                objective: "Menerangkan tatacara pengauditan, pemarkahan, dan etika untuk memastikan pematuhan standard.",
+                icon: Icons.CheckCircle,
+                color: "from-purple-500 to-indigo-500",
+                link: "modul3_audit_v10.html" // Pautan aktif ke modul yang telah siap
+            }
+        ];
+
+        // --- COMPONENTS ---
+
+        const HeroSection = () => (
+            <div className="relative bg-slate-900 text-white py-24 px-6 overflow-hidden">
+                {/* Background Shapes */}
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20">
+                    <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse-slow"></div>
+                    <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+                </div>
+
+                <div className="max-w-6xl mx-auto relative z-10 text-center animate-fade-in-up">
+                    <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-bold tracking-wider mb-6 border border-white/20 backdrop-blur-sm">
+                        <Icons.Award size={16} /> PORTAL LATIHAN RASMI
+                    </div>
+                    <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
+                        Kursus Transformasi <br/>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">EKSA Sektor Awam</span>
+                    </h1>
+                    <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                        Platform pembelajaran interaktif untuk membudayakan Ekosistem Kondusif Sektor Awam ke arah penyampaian perkhidmatan yang cemerlang.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onClick={() => document.getElementById('modul-list').scrollIntoView({ behavior: 'smooth' })} className="px-8 py-4 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition-transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
+                            Mula Belajar <Icons.ArrowRight size={20}/>
+                        </button>
+                        <button className="px-8 py-4 bg-transparent border-2 border-slate-700 text-white rounded-xl font-bold hover:bg-white/5 transition-colors">
+                            Tentang Kami
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const ModuleCard = ({ mod, index }) => (
+            <div className="group hover-lift h-full" style={{animationDelay: `${index * 150}ms`}}>
+                <div className="glass-card rounded-3xl p-8 h-full flex flex-col shadow-xl hover:shadow-2xl transition-shadow relative overflow-hidden">
+                    
+                    {/* Top Accent Line */}
+                    <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${mod.color}`}></div>
+                    
+                    {/* Icon */}
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${mod.color} flex items-center justify-center text-white shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                        <mod.icon size={32} />
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-grow">
+                        <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 block">{mod.subtitle}</span>
+                        <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">{mod.title}</h3>
+                        <p className="text-slate-600 mb-6 leading-relaxed">{mod.desc}</p>
+                        
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6">
+                            <h4 className="text-xs font-bold text-slate-800 uppercase mb-1 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-blue-500"></span> Objektif Utama:
+                            </h4>
+                            <p className="text-sm text-slate-600 italic">"{mod.objective}"</p>
+                        </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <a href={mod.link} className={`mt-auto w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r ${mod.color} shadow-md hover:shadow-lg flex items-center justify-center gap-2 group-hover:gap-3 transition-all`}>
+                        {mod.id === 3 ? "Mula Modul" : "Akan Datang"} 
+                        {mod.id === 3 && <Icons.Play size={18} fill="currentColor" />}
+                    </a>
+                </div>
+            </div>
+        );
+
+        const Dashboard = () => {
+            return (
+                <div className="flex-grow flex flex-col">
+                    <HeroSection />
+                    
+                    <main id="modul-list" className="max-w-7xl mx-auto px-6 py-20 w-full bg-slate-50 relative">
+                        <div className="text-center mb-16">
+                            <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">Kurikulum Pembelajaran</span>
+                            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">Pilih Modul Pembelajaran Anda</h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {modules.map((mod, idx) => (
+                                <div key={mod.id} className="animate-fade-in-up">
+                                    <ModuleCard mod={mod} index={idx} />
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+
+                    <footer className="bg-white border-t py-12 mt-auto">
+                        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+                            <div>
+                                <div className="font-extrabold text-xl text-slate-900 flex items-center justify-center md:justify-start gap-2">
+                                    <div className="bg-blue-600 p-1.5 rounded-lg text-white">
+                                        <Icons.Award size={20}/>
+                                    </div>
+                                    <span>PORTAL <span className="text-blue-600">EKSA</span></span>
+                                </div>
+                                <p className="text-slate-400 text-sm mt-2">Memperkasakan persekitaran kondusif sektor awam.</p>
+                            </div>
+                            <div className="text-slate-400 text-sm">
+                                <p>&copy; 2025 Bahagian Inspektorat & Pengiktirafan.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Dashboard />);
+    </script>
+</body>
+</html>
