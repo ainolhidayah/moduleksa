@@ -102,14 +102,17 @@
         .card-back h3 { color: #11caa0; margin-bottom: 8px; font-size: 18px; }
         .card-back p { color: #f3f0df; font-size: 13px; line-height: 1.4; }
         
+        /* DIBETULKAN: Holder Imej dalam Kad */
         .card-img-holder {
-            width: 100%; height: 80px; background: rgba(255,255,255,0.15); 
+            width: 100%; height: 80px; 
             border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 15px; color: rgba(255,255,255,0.8); font-size: 12px;
+            margin-bottom: 15px; overflow: hidden;
             flex-shrink: 0;
         }
-        .card-img-holder i { font-size: 24px; margin-right: 8px; }
+        .card-img-holder img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
 
         .quiz-box { background: #ffedd5; border: 2px dashed #f97316; border-radius: 15px; padding: 25px; width: 100%; position: relative; }
         .quiz-badge { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: #f97316; color: #fff; padding: 6px 20px; border-radius: 50px; font-weight: 700; font-size: 13px; letter-spacing: 1px; }
@@ -202,9 +205,9 @@
 
         .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; }
         .image-wrapper { border-radius: 10px; height: 300px; overflow: hidden; border: 1px solid #cdd6e2; width: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; position: relative; }
+        
+        /* DIBETULKAN: Gaya imej agar penuh dalam kontainer */
         .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        .image-placeholder { text-align: center; color: #94a3b8; }
-        .image-placeholder i { font-size: 40px; margin-bottom: 8px; }
 
         .activity-box { background: #003366; color: #fff; padding: 25px; border-radius: 15px; border-left: 8px solid #11caa0; transition: transform 0.3s; }
         .activity-box:hover { transform: scale(1.02); }
@@ -298,7 +301,7 @@
     </div>
 </div>
 
-<!-- SLIDE 2: HOOK (Pilih Realiti Anda) -->
+<!-- SLIDE 2: HOOK -->
 <div class="slide-container" id="slide2">
     <div class="slide-number">2 / 14</div>
     <h2 class="slide-title">Realiti Tempat Kerja</h2>
@@ -307,7 +310,7 @@
         <div class="hook-container">
             <div class="hook-choice bad">
                 <div class="hook-label">A</div>
-                <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=800" alt="Pejabat Serabut dan Penuh Barang">
+                <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=800" alt="Pejabat Serabut">
                 <div class="hook-overlay">
                     <h2>ZON SERABUT</h2>
                     <p>Stress tinggi, masa terbazir mencari fail, dan risiko keselamatan.</p>
@@ -376,7 +379,7 @@
     </div>
 </div>
 
-<!-- SLIDE 5: Gantt Chart (Restored Table + Link) -->
+<!-- SLIDE 5: Gantt Chart -->
 <div class="slide-container" id="slide5">
     <div class="slide-number">5 / 14</div>
     <h2 class="slide-title">Pelan Pelaksanaan (Contoh)</h2>
@@ -394,7 +397,6 @@
         </div>
         <p style="margin-top:15px; font-size: 14px; font-style: italic; color: #64748b;">*Nota: Jadual di atas adalah contoh simulasi perancangan agensi.</p>
         
-        <!-- Butang Pautan Google Sheet -->
         <div style="text-align: center; margin-top: 15px;">
             <a href="#" target="_blank" class="g-sheet-btn">
                 <i class="fas fa-file-excel"></i> Pautan Carta Gantt Google Sheet
@@ -407,7 +409,7 @@
     </div>
 </div>
 
-<!-- SLIDE 6: Quiz 1 (Original) -->
+<!-- SLIDE 6: Quiz 1 (DIBETULKAN DENGAN TAG IMG SEBENAR) -->
 <div class="slide-container" id="slide6">
     <div class="slide-number">6 / 14</div>
     <div class="content-area">
@@ -415,11 +417,8 @@
             <div class="quiz-badge">UJI MINDA 1</div>
             <div class="two-column" style="align-items: center;">
                 <div class="image-wrapper">
-                    <!-- Placeholder untuk gambar pengguna -->
-                    <div class="image-placeholder">
-                        <i class="fas fa-image"></i>
-                        <p>[ Sila Masukkan Gambar Pelan Lantai Pejabat Kosong Di Sini ]</p>
-                    </div>
+                    <!-- TAG IMG UNTUK PELAN LANTAI -->
+                    <img src="Pelan_Lantai_Pejabat.jpg" alt="Pelan Lantai" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Gambar+Pelan+Lantai+Tiada';">
                 </div>
                 <div>
                     <h3>Isu Zon "No Man's Land"</h3>
@@ -429,7 +428,7 @@
                     <button id="btnQuiz1" class="reveal-btn" onclick="document.getElementById('ansQuiz1').style.display='block'; this.style.display='none';">Lihat Jawapan</button>
                     
                     <div id="ansQuiz1" class="reveal-content">
-                        <p><strong>Falsafah EKSA:</strong> Tanpa zon, tanggungjawab akan hilang. Setiap inci pejabat (termasuk laluan umum) mesti ada "Pemilik" atau Zon yang bertanggungjawab memastikan kebersihan.</p>
+                        <p><strong>Falsafah EKSA:</strong> Tanpa zon, tanggungjawab akan hilang. Setiap inci pejabat (termasuk laluan umum) mesti ada "Pemilik" yang memastikan kebersihan.</p>
                     </div>
                 </div>
             </div>
@@ -441,46 +440,34 @@
     </div>
 </div>
 
-<!-- SLIDE 7: Komponen A (with Google Drive Links) -->
+<!-- SLIDE 7: Komponen A -->
 <div class="slide-container" id="slide7">
     <div class="slide-number">7 / 14</div>
     <h2 class="slide-title">Komponen A: Keperluan Utama</h2>
     <div class="content-area">
         <div class="flip-container">
-            <!-- Kad 1: Dasar -->
             <div class="flip-card">
                 <div class="card-front"><i class="fas fa-file-contract"></i><h3>DASAR</h3></div>
                 <div class="card-back">
                     <h3>Polisi Agensi</h3>
-                    <p>Mesti disahkan, dipamerkan di Sudut EKSA & difahami warga bagi hala tuju yang seragam.</p>
-                    <!-- PAUTAN GOOGLE DRIVE 1 -->
-                    <a href="#" target="_blank" class="drive-link-btn">
-                        <i class="fab fa-google-drive"></i> Buka Fail Dasar
-                    </a>
+                    <p>Mesti disahkan, dipamerkan di Sudut EKSA & difahami warga.</p>
+                    <a href="#" target="_blank" class="drive-link-btn"><i class="fab fa-google-drive"></i> Buka Fail Dasar</a>
                 </div>
             </div>
-            <!-- Kad 2: JK Zon -->
             <div class="flip-card">
                 <div class="card-front"><i class="fas fa-users-cog"></i><h3>JK ZON</h3></div>
                 <div class="card-back">
                     <h3>Tadbir Urus</h3>
-                    <p>Struktur Jawatankuasa Pemandu & Pelaksana setiap zon dengan pembahagian tugas yang aktif.</p>
-                    <!-- PAUTAN GOOGLE DRIVE 2 -->
-                    <a href="#" target="_blank" class="drive-link-btn">
-                        <i class="fab fa-google-drive"></i> Buka Carta JK
-                    </a>
+                    <p>Struktur Jawatankuasa Pemandu & Pelaksana setiap zon.</p>
+                    <a href="#" target="_blank" class="drive-link-btn"><i class="fab fa-google-drive"></i> Buka Carta JK</a>
                 </div>
             </div>
-            <!-- Kad 3: Fail Zon -->
             <div class="flip-card">
                 <div class="card-front"><i class="fas fa-folder-open"></i><h3>FAIL ZON</h3></div>
                 <div class="card-back">
                     <h3>Bukti Fizikal</h3>
-                    <p>Rekod bukti bergambar 'Before & After' serta minit mesyuarat sebagai bukti transfromasi.</p>
-                    <!-- PAUTAN GOOGLE DRIVE 3 -->
-                    <a href="#" target="_blank" class="drive-link-btn">
-                        <i class="fab fa-google-drive"></i> Buka Fail Zon
-                    </a>
+                    <p>Rekod bukti bergambar 'Before & After' serta minit mesyuarat.</p>
+                    <a href="#" target="_blank" class="drive-link-btn"><i class="fab fa-google-drive"></i> Buka Fail Zon</a>
                 </div>
             </div>
         </div>
@@ -491,7 +478,7 @@
     </div>
 </div>
 
-<!-- SLIDE 8: Aktiviti Drawer (Kept Text Changes) -->
+<!-- SLIDE 8: Aktiviti Drawer -->
 <div class="slide-container" id="slide8">
     <div class="slide-number">8 / 14</div>
     <h2 class="slide-title">Aktiviti: Simulasi Laci EKSA</h2>
@@ -518,9 +505,9 @@
                 void display.offsetWidth; 
                 display.classList.add('flash');
                 const content = {
-                    'top': { icon: 'fa-pen-ruler', title: 'LACI ATAS: ALAT TULIS', text: 'Susun menggunakan "Drawer Divider". alat tulis disusun mengikut saiz petak yang sesuai dan mengikut kategori. <br><strong>Standard:</strong> Mudah diambil & dipulangkan.' },
-                    'mid': { icon: 'fa-folder-open', title: 'LACI TENGAH: DOKUMEN RASMI', text: '<span style="font-size: 24px; font-weight: bold;">Buku catatan atau diari rasmi sahaja.</span> <br><strong>Standard:</strong> Susunan kemas, Mudah diambil & dipulangkan.' },
-                    'bot': { icon: 'fa-user-lock', title: 'LACI BAWAH: PERIBADI', text: 'Beg tangan, dompet, kasut tambahan (jika perlu). <br><strong>Standard:</strong> Kemas, tidak berbau & minimum.' }
+                    'top': { icon: 'fa-pen-ruler', title: 'LACI ATAS: ALAT TULIS', text: 'Susun menggunakan "Drawer Divider". Alat tulis disusun mengikut saiz petak yang sesuai.' },
+                    'mid': { icon: 'fa-folder-open', title: 'LACI TENGAH: DOKUMEN RASMI', text: 'Buku catatan atau diari rasmi sahaja. Standard: Susunan kemas, mudah dicapai.' },
+                    'bot': { icon: 'fa-user-lock', title: 'LACI BAWAH: PERIBADI', text: 'Beg tangan, dompet, kasut tambahan (minimum). Kemas & tidak berbau.' }
                 };
                 display.innerHTML = `<i class="fas ${content[type].icon} drawer-icon"></i><h3 style="color:#005088; text-transform:uppercase;">${content[type].title}</h3><p style="font-size:15px; color:#334155;">${content[type].text}</p>`;
             }
@@ -532,7 +519,7 @@
     </div>
 </div>
 
-<!-- SLIDE 9: Quiz 2 -->
+<!-- SLIDE 9: Quiz 2 (DIBETULKAN DENGAN TAG IMG SEBENAR) -->
 <div class="slide-container" id="slide9">
     <div class="slide-number">9 / 14</div>
     <div class="content-area">
@@ -543,20 +530,17 @@
                     <h3 style="color: #064e3b;">Spot The Error!</h3>
                     <p style="color: #1e293b; font-weight: 700;">Apakah kesalahan utama di meja ini?</p>
                     <ul style="list-style: none; padding: 0;">
-                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size:14px;"><i class="fas fa-times" style="color:#ef4444; margin-right: 8px;"></i> Wayar PC 'spageti' mencecah lantai.</li>
-                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size:14px;"><i class="fas fa-times" style="color:#ef4444; margin-right: 8px;"></i> Kotak tisu pelbagai jenama & warna.</li>
-                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size:14px;"><i class="fas fa-times" style="color:#ef4444; margin-right: 8px;"></i> Nota pelekat (Post-it) merata di monitor.</li>
-                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-weight:700; color:#b91c1c; font-size:14px;"><i class="fas fa-exclamation-circle" style="color:#ef4444; margin-right: 8px;"></i> Fail bertabur & tidak ikut spesifikasi.</li>
+                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; font-size:14px;"><i class="fas fa-times" style="color:#ef4444;"></i> Wayar PC berserabut mencecah lantai.</li>
+                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; font-size:14px;"><i class="fas fa-times" style="color:#ef4444;"></i> Kotak tisu tidak seragam.</li>
+                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; font-size:14px;"><i class="fas fa-times" style="color:#ef4444;"></i> Nota pelekat terlalu banyak di monitor.</li>
+                        <li class="error-item" style="display:none; margin-bottom:8px; background: white; padding: 8px; border-radius: 6px; font-size:14px; font-weight:700; color:#b91c1c;"><i class="fas fa-exclamation-circle"></i> Fail bertabur & tidak berlabel.</li>
                     </ul>
-                    <button id="btnRevealError" class="reveal-btn" onclick="revealNextError()" style="display:block; width: 100%;">Dedahkan Kesalahan Seterusnya</button>
-                    <p id="eksa-principle" style="margin-top: 15px; font-weight: 700; color: #064e3b; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; display: none; font-size:13px;">Prinsip EKSA: Keseragaman, Susunan Fail Teratur & Imej Korporat.</p>
+                    <button id="btnRevealError" class="reveal-btn" onclick="revealNextError()">Dedahkan Kesalahan</button>
+                    <p id="eksa-principle" style="margin-top: 15px; font-weight: 700; color: #064e3b; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; display: none; font-size:13px;">Prinsip EKSA: Keseragaman & Imej Korporat.</p>
                 </div>
                 <div class="image-wrapper">
-                    <!-- Placeholder untuk gambar pengguna -->
-                    <div class="image-placeholder">
-                        <i class="fas fa-image"></i>
-                        <p>[ Sila Masukkan Gambar Meja Berselerak Di Sini ]</p>
-                    </div>
+                    <!-- TAG IMG UNTUK MEJA BERSERAK -->
+                    <img src="Meja_Berselerak.jpg" alt="Meja Berselerak" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Gambar+Meja+Berselerak+Tiada';">
                 </div>
             </div>
         </div>
@@ -569,74 +553,85 @@
     function revealNextError() {
         const items = document.querySelectorAll('.error-item');
         let foundHidden = false;
-        for(let item of items) { if (item.style.display === 'none') { item.style.display = 'block'; item.style.animation = 'fadeInUp 0.5s ease'; foundHidden = true; break; } }
+        for(let item of items) { if (item.style.display === 'none') { item.style.display = 'block'; foundHidden = true; break; } }
         let allVisible = true;
         for(let item of items) { if (item.style.display === 'none') { allVisible = false; break; } }
-        if (allVisible) { document.getElementById('eksa-principle').style.display = 'block'; document.getElementById('eksa-principle').style.animation = 'fadeInUp 0.5s ease'; document.getElementById('btnRevealError').style.display = 'none'; }
+        if (allVisible) { document.getElementById('eksa-principle').style.display = 'block'; document.getElementById('btnRevealError').style.display = 'none'; }
     }
     </script>
 </div>
 
-<!-- SLIDE 10: Komponen C -->
+<!-- SLIDE 10: Komponen C (DIBETULKAN DENGAN TAG IMG SEBENAR) -->
 <div class="slide-container" id="slide10">
     <div class="slide-number">10 / 14</div>
     <h2 class="slide-title">Komponen C: Tempat Umum</h2>
     <div class="content-area">
         <div class="flip-container">
+            <!-- PANTRI -->
             <div class="flip-card">
                 <div class="card-front"><i class="fas fa-coffee"></i><h3>PANTRI</h3></div>
                 <div class="card-back">
-                    <div class="card-img-holder"><i class="fas fa-image"></i> [Gambar Pantri]</div>
-                    <h3>Ruang Guna Sama</h3><p>Sistem 'Food Tagging' di peti sejuk, sinki sentiasa kering, dan jadual tugas yang dipatuhi.</p>
+                    <div class="card-img-holder">
+                        <img src="Gambar_Pantri.jpg" alt="Pantri" onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Gambar+Pantri+Tiada';">
+                    </div>
+                    <h3>Ruang Guna Sama</h3>
+                    <p>Sistem Food Tagging, sinki kering, dan jadual tugas dipatuhi.</p>
                 </div>
             </div>
+            <!-- MESYUARAT -->
             <div class="flip-card">
                 <div class="card-front"><i class="fas fa-handshake"></i><h3>MESYUARAT</h3></div>
                 <div class="card-back">
-                    <div class="card-img-holder"><i class="fas fa-image"></i> [Gambar Bilik Mesyuarat]</div>
-                    <h3>Bilik Diskusi</h3><p>Kerusi dirapatkan, papan putih dipadam, dan peralatan disusun semula selepas setiap penggunaan.</p>
+                    <div class="card-img-holder">
+                        <img src="Gambar_Bilik_Mesyuarat.jpg" alt="Mesyuarat" onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Gambar+Mesyuarat+Tiada';">
+                    </div>
+                    <h3>Bilik Diskusi</h3>
+                    <p>Kerusi dirapatkan, papan putih dipadam selepas digunakan.</p>
                 </div>
             </div>
+            <!-- BILIK FAIL -->
             <div class="flip-card">
                 <div class="card-front"><i class="fas fa-archive"></i><h3>BILIK FAIL</h3></div>
                 <div class="card-back">
-                    <div class="card-img-holder"><i class="fas fa-image"></i> [Gambar Bilik Fail]</div>
-                    <h3>Arkib & Rekod</h3><p>Indeks fail yang efisien, tetulang fail seragam mengikut unit, dan tiada fail bertimbun di atas lantai.</p>
+                    <div class="card-img-holder">
+                        <img src="Gambar_Bilik_Fail.jpg" alt="Bilik Fail" onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Gambar+Fail+Tiada';">
+                    </div>
+                    <h3>Arkib & Rekod</h3>
+                    <p>Indeks fail efisien & tetulang fail seragam mengikut unit.</p>
                 </div>
             </div>
         </div>
     </div>
     <div class="nav-footer">
         <a href="#slide9" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
-        <a href="#slide11" class="nav-btn">Aktiviti Parking <i class="fas fa-parking"></i></a>
+        <a href="#slide11" class="nav-btn">Parking Lot <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
 
-<!-- SLIDE 11: Aktiviti Parking (Reverted to Previous Interactive Style) -->
+<!-- SLIDE 11: Parking Lot -->
 <div class="slide-container" id="slide11">
     <div class="slide-number">11 / 14</div>
-    <h2 class="slide-title">Aktiviti: Visual Parking Lot</h2>
+    <h2 class="slide-title">Visual Parking Lot</h2>
     <div class="content-area">
         <div class="two-column" style="align-items:center;">
             <div class="activity-box">
-                <h3 style="color:#11caa0;">Misi: Parkir Alatan Guna Sama</h3>
-                <p>Klik kotak simulasi di sebelah untuk melihat teknik parkir:</p>
+                <h3 style="color:#11caa0;">Misi: Parkir Alatan</h3>
+                <p>Klik kotak simulasi di sebelah:</p>
                 <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom:15px; color:white;"><i class="fas fa-map-marker-alt"></i> <strong>Tapak:</strong> Tanda guna pita pelekat.</li>
-                    <li style="margin-bottom:15px; color:white;"><i class="fas fa-tag"></i> <strong>Label:</strong> Nama alatan (TROLLEY).</li>
-                    <li style="color:white;"><i class="fas fa-eye"></i> <strong>Disiplin:</strong> Barang mesti pulang ke 'rumah'.</li>
+                    <li style="margin-bottom:10px; color:white;"><i class="fas fa-tag"></i> <strong>Label:</strong> Nama alatan jelas.</li>
+                    <li style="color:white;"><i class="fas fa-eye"></i> <strong>Disiplin:</strong> Alatan pulang ke rumah.</li>
                 </ul>
             </div>
             <div class="parking-sim" onclick="this.classList.toggle('active')">
                 <div class="parking-lines"></div>
                 <div class="parking-item"><i class="fas fa-dolly"></i><div class="parking-label">TROLLEY</div></div>
-                <div class="tap-hint">KLIK UNTUK PASANG TAPAK PARKIR</div>
+                <div class="tap-hint">KLIK UNTUK PASANG TAPAK</div>
             </div>
         </div>
     </div>
     <div class="nav-footer">
         <a href="#slide10" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
-        <a href="#slide12" class="nav-btn">Komponen D & E <i class="fas fa-arrow-right"></i></a>
+        <a href="#slide12" class="nav-btn">Seterusnya <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
 
@@ -646,259 +641,97 @@
     <h2 class="slide-title">Pematuhan Standard Fizikal</h2>
     <div class="content-area">
         <div class="interactive-grid">
-            <div class="grid-card"><i class="fas fa-fire-extinguisher"></i><h3>KESELAMATAN</h3><div class="grid-details"><h3>STANDARD D</h3><p>Pemadam api mesti mempunyai sijil sah, digantung ikut spesifikasi, dan tiada halangan visual.</p></div></div>
-            <div class="grid-card"><i class="fas fa-running"></i><h3>LALUAN</h3><div class="grid-details"><h3>LALUAN KECEMASAN</h3><p>Wajib bebas daripada sebarang perabot, kotak fail, atau hiasan pasu bunga yang menghalang.</p></div></div>
-            <div class="grid-card"><i class="fas fa-wheelchair"></i><h3>PARKING OKU</h3><div class="grid-details"><h3>KOMPONEN E</h3><p>Petak disediakan khusus, dicat biru dengan logo OKU, dan berhampiran pintu masuk utama.</p></div></div>
-            <div class="grid-card"><i class="fas fa-leaf"></i><h3>GO GREEN</h3><div class="grid-details"><h3>AMALAN HIJAU</h3><p>Kempen penjimatan tenaga di setiap suis dan penyediaan tong kitar semula yang aktif.</p></div></div>
+            <div class="grid-card"><i class="fas fa-fire-extinguisher"></i><h3>KESELAMATAN</h3><div class="grid-details"><h3>STANDARD D</h3><p>Pemadam api bersijil sah & tiada halangan visual.</p></div></div>
+            <div class="grid-card"><i class="fas fa-running"></i><h3>LALUAN</h3><div class="grid-details"><h3>KECEMASAN</h3><p>Wajib bebas daripada sebarang halangan perabot.</p></div></div>
+            <div class="grid-card"><i class="fas fa-wheelchair"></i><h3>PARKING OKU</h3><div class="grid-details"><h3>KOMPONEN E</h3><p>Petak disediakan khusus & berhampiran pintu masuk.</p></div></div>
+            <div class="grid-card"><i class="fas fa-leaf"></i><h3>GO GREEN</h3><div class="grid-details"><h3>AMALAN HIJAU</h3><p>Kempen penjimatan tenaga & kitar semula aktif.</p></div></div>
         </div>
-        
-        <!-- NEW LINK BUTTON -->
         <div style="text-align: center; margin-top: 20px;">
-            <a href="#" target="_blank" class="g-sheet-btn">
-                <i class="fas fa-clipboard-check"></i> Pautan Senarai Semak Fizikal
-            </a>
+            <a href="#" target="_blank" class="g-sheet-btn"><i class="fas fa-clipboard-check"></i> Senarai Semak Fizikal</a>
         </div>
     </div>
     <div class="nav-footer">
         <a href="#slide11" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
-        <a href="#slide13" class="nav-btn">20 Soalan Kuiz <i class="fas fa-clock"></i></a>
+        <a href="#slide13" class="nav-btn">Kuiz <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
 
-<!-- SLIDE 13: NEW QUIZ (20 Questions - Updated with Pause Button) -->
+<!-- SLIDE 13: Kuiz -->
 <div class="slide-container" id="slide13">
     <div class="slide-number">13 / 14</div>
     <div class="final-quiz-container">
-        <!-- Start Screen Overlay -->
-        <div class="quiz-overlay" id="quizStartOverlay" style="display:flex; z-index: 30;">
+        <div class="quiz-overlay" id="quizStartOverlay" style="display:flex;">
             <i class="fas fa-clipboard-question" style="font-size: 60px; color: #005088; margin-bottom: 20px;"></i>
             <h2>Ujian Kefahaman Modul 2</h2>
-            <p style="font-size: 18px; color: #334155; margin-bottom: 20px;">20 Soalan | 12 Saat/Soalan</p>
-            <button class="nav-btn" onclick="startQuiz()">Mula Sekarang <i class="fas fa-play"></i></button>
+            <button class="nav-btn" onclick="startQuiz()">Mula Kuiz <i class="fas fa-play"></i></button>
         </div>
-
         <div class="quiz-header">
-            <div class="quiz-timer">
-                <i class="fas fa-stopwatch"></i> <span id="timeDisplay">10:00</span>
-            </div>
-            <!-- Pause Button -->
-            <button id="pauseBtn" class="pause-btn" onclick="togglePause()">
-                <i class="fas fa-pause"></i> Jeda
-            </button>
-            <!-- Per-Question Timer -->
-            <div class="question-timer-box" id="qTimerBox">
-                <i class="fas fa-hourglass-half"></i> <span id="qTimerDisplay">12</span>s
-            </div>
+            <div class="quiz-timer"><i class="fas fa-stopwatch"></i> <span id="timeDisplay">10:00</span></div>
             <div class="quiz-score">Markah: <span id="scoreDisplay">0</span>/20</div>
         </div>
-        <div class="question-card" id="questionCard">
-            <div class="question-text" id="qText">Soalan akan dipaparkan di sini...</div>
-            <div class="options-grid" id="optionsGrid">
-                <!-- Options will be injected here -->
-            </div>
-        </div>
-        <div class="quiz-instruction">
-            <i class="fas fa-info-circle"></i> Setiap soalan diberikan tempoh 12 saat untuk menjawab.
+        <div class="question-card">
+            <div class="question-text" id="qText">Tekan Mula untuk menjawab...</div>
+            <div class="options-grid" id="optionsGrid"></div>
         </div>
         <div class="quiz-overlay" id="quizOverlay">
             <h2>Tamat!</h2>
             <div class="result-score" id="finalScore">0/20</div>
-            <p id="feedbackMsg">Syabas!</p>
-            <button class="nav-btn" onclick="showStartScreen()">Cuba Lagi</button>
+            <button class="nav-btn" onclick="location.reload()">Cuba Lagi</button>
         </div>
     </div>
     <div class="nav-footer">
         <a href="#slide12" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
         <a href="#slide14" class="nav-btn">Penutup <i class="fas fa-flag-checkered"></i></a>
     </div>
-    <script>
-    const questions = [
-        {q:"Apakah maksud Komponen A dalam EKSA?", a:"Keperluan Utama Pelaksanaan", o:["Ruang Kerja","Tempat Umum","Keperluan Utama Pelaksanaan","Keselamatan"]},
-        {q:"Berapakah tempoh masa sasaran untuk mencapai fail?", a:"30 Saat", o:["1 Minit","30 Saat","5 Minit","10 Saat"]},
-        {q:"Di manakah Polisi EKSA perlu dipamerkan?", a:"Sudut EKSA", o:["Dalam Laci","Sudut EKSA","Bilik Stor","Tandas"]},
-        {q:"Apakah susunan barang yang betul di dalam stor?", a:"Berat di bawah, Ringan di atas", o:["Ikut warna","Berat di atas","Berat di bawah, Ringan di atas","Ikut saiz"]},
-        {q:"Apakah maksud 'Clear Desk Policy'?", a:"Meja kosong & kemas selepas kerja", o:["Meja tiada komputer","Meja kosong & kemas selepas kerja","Meja tiada telefon","Meja mesti putih"]},
-        {q:"Apakah fungsi 'Shadow Board'?", a:"Memastikan alatan kembali ke tempat asal", o:["Hiasan dinding","Memastikan alatan kembali ke tempat asal","Tempat letak kunci","Papan kenyataan"]},
-        {q:"Warna apakah yang sinonim dengan Petak OKU?", a:"Biru", o:["Merah","Kuning","Biru","Hijau"]},
-        {q:"Apakah tindakan utama dalam fasa 'DO'?", a:"Gotong-Royong & Pelaksanaan Fizikal", o:["Audit Dalaman","Gotong-Royong & Pelaksanaan Fizikal","Lantikan JK","Mesyuarat"]},
-        {q:"Berapakah ketinggian fail yang dibenarkan di atas meja?", a:"Tiada fail bertimbun", o:["1 Timbun","3 Timbun","Tiada fail bertimbun","Ikut suka"]},
-        {q:"Apakah kaedah penyimpanan stok yang betul?", a:"FIFO (First In First Out)", o:["LIFO","FIFO (First In First Out)","Rawak","Ikut Abjad"]},
-        {q:"Di manakah lokasi sesuai untuk Alat Pemadam Api?", a:"Digantung & Tiada Halangan", o:["Dalam almari","Di lantai","Digantung & Tiada Halangan","Di belakang pintu"]},
-        {q:"Apakah tujuan utama pembahagian Zon?", a:"Mewujudkan rasa kepunyaan (Ownership)", o:["Untuk pertandingan","Mewujudkan rasa kepunyaan (Ownership)","Arahan bos","Cantik"]},
-        {q:"Bagaimanakah kabel komputer perlu diuruskan?", a:"Diikat kemas (Cable Tie)", o:["Dibiarkan","Diikat kemas (Cable Tie)","Disorok bawah karpet","Dipotong"]},
-        {q:"Apakah elemen 'Go Green' yang mudah dilaksanakan?", a:"Label penjimatan tenaga", o:["Tanam pokok besar","Label penjimatan tenaga","Cat dinding hijau","Beli kereta hibrid"]},
-        {q:"Siapakah yang mengetuai Audit Dalaman?", a:"Ketua Juruaudit / JK Audit", o:["Ketua Jabatan","Penyelaras","Ketua Juruaudit / JK Audit","Ketua Zon"]},
-        {q:"Apakah font standard yang disyorkan untuk label?", a:"Arial / Calibri", o:["Comic Sans","Times New Roman","Arial / Calibri","Chiller"]},
-        {q:"Apakah tindakan jika menjumpai barang rosak (Tag Merah)?", a:"Pelupusan", o:["Simpan","Pelupusan","Baiki sendiri","Sembunyi"]},
-        {q:"Berapakah pasang kasut dibenarkan di bawah meja?", a:"3 Pasang", o:["1 Pasang","2 Pasang","3 Pasang","Tiada had"]},
-        {q:"Apakah fungsi 'Food Tagging' di pantri?", a:"Kenalpasti tuan & tarikh luput", o:["Hiasan","Kenalpasti tuan & tarikh luput","Syarat wajib","Elak dicuri"]},
-        {q:"Bilakah jangkaan Audit Persijilan biasanya berlaku?", a:"Fasa ACT", o:["Fasa PLAN","Fasa DO","Fasa CHECK","Fasa ACT"]}
-    ];
-    let currentQ = 0;
-    let score = 0;
-    let timer; 
-    let timeLeft = 600; 
-    let qTimer; 
-    let qTimeLeft = 12;
-    let isPaused = false;
-    const optionLabels = ['A', 'B', 'C', 'D'];
-
-    function showStartScreen() {
-        clearInterval(timer);
-        clearInterval(qTimer);
-        document.getElementById('quizStartOverlay').style.display = 'flex';
-        document.getElementById('quizOverlay').style.display = 'none';
-        document.getElementById('timeDisplay').innerText = "10:00";
-        document.getElementById('scoreDisplay').innerText = "0";
-        isPaused = false;
-        updatePauseBtnUI();
-    }
-
-    function startQuiz() {
-        currentQ = 0; score = 0; timeLeft = 600;
-        document.getElementById('quizStartOverlay').style.display = 'none';
-        document.getElementById('quizOverlay').style.display = 'none';
-        
-        isPaused = false;
-        updatePauseBtnUI();
-
-        loadQuestion();
-        clearInterval(timer);
-        timer = setInterval(updateTimer, 1000);
-    }
-
-    function togglePause() {
-        isPaused = !isPaused;
-        updatePauseBtnUI();
-        const btns = document.querySelectorAll('.option-btn');
-        btns.forEach(btn => btn.disabled = isPaused);
-    }
-
-    function updatePauseBtnUI() {
-        const btn = document.getElementById('pauseBtn');
-        if(isPaused) {
-            btn.innerHTML = '<i class="fas fa-play"></i> Sambung';
-            btn.classList.add('resume');
-            document.getElementById('qText').innerText = "Kuiz Dijeda...";
-        } else {
-            btn.innerHTML = '<i class="fas fa-pause"></i> Jeda';
-            btn.classList.remove('resume');
-            if(document.getElementById('quizStartOverlay').style.display === 'none') {
-                 const q = questions[currentQ];
-                 document.getElementById('qText').innerText = `${currentQ+1}. ${q.q}`;
-            }
-        }
-    }
-
-    function updateTimer() {
-        if(isPaused) return; 
-
-        let m = Math.floor(timeLeft / 60);
-        let s = timeLeft % 60;
-        document.getElementById('timeDisplay').innerText = `${m}:${s<10?'0':''}${s}`;
-        if(timeLeft === 0) endQuiz();
-        timeLeft--;
-    }
-
-    function startQuestionTimer() {
-        qTimeLeft = 12;
-        const qDisplay = document.getElementById('qTimerDisplay');
-        const qBox = document.getElementById('qTimerBox');
-        qDisplay.innerText = qTimeLeft;
-        qBox.classList.remove('hurry');
-        
-        clearInterval(qTimer);
-        qTimer = setInterval(() => {
-            if(isPaused) return; 
-
-            qTimeLeft--;
-            qDisplay.innerText = qTimeLeft;
-            if(qTimeLeft <= 5) qBox.classList.add('hurry');
-            if(qTimeLeft <= 0) {
-                clearInterval(qTimer);
-                handleTimeout(); 
-            }
-        }, 1000);
-    }
-
-    function handleTimeout() {
-        const btns = document.querySelectorAll('.option-btn');
-        btns.forEach(btn => btn.disabled = true);
-        const currentQuestion = questions[currentQ];
-        btns.forEach(btn => {
-            if(btn.innerText.includes(currentQuestion.a)) {
-                btn.classList.add('correct'); 
-            }
-        });
-        setTimeout(() => {
-            currentQ++;
-            if(currentQ < questions.length) loadQuestion();
-            else endQuiz();
-        }, 1500);
-    }
-
-    function loadQuestion() {
-        const q = questions[currentQ];
-        document.getElementById('qText').innerText = `${currentQ+1}. ${q.q}`;
-        const grid = document.getElementById('optionsGrid');
-        grid.innerHTML = '';
-        startQuestionTimer();
-        q.o.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = `${optionLabels[index]}. ${opt}`; 
-            btn.onclick = () => {
-                if(!isPaused) checkAnswer(opt, q.a);
-            };
-            grid.appendChild(btn);
-        });
-        document.getElementById('scoreDisplay').innerText = score;
-    }
-
-    function checkAnswer(selected, correct) {
-        clearInterval(qTimer);
-        const btns = document.querySelectorAll('.option-btn');
-        btns.forEach(btn => {
-            btn.disabled = true;
-            if(btn.innerText.includes(correct)) btn.classList.add('correct');
-            else if(btn.innerText.includes(selected)) btn.classList.add('wrong');
-        });
-        if(selected === correct) score++;
-        setTimeout(() => {
-            currentQ++;
-            if(currentQ < questions.length) loadQuestion();
-            else endQuiz();
-        }, 1000);
-    }
-
-    function endQuiz() {
-        clearInterval(timer);
-        clearInterval(qTimer);
-        document.getElementById('quizOverlay').style.display = 'flex';
-        document.getElementById('finalScore').innerText = `${score}/20`;
-        let msg = score > 15 ? "Tahniah! Anda Pakar EKSA." : "Boleh cuba lagi!";
-        document.getElementById('feedbackMsg').innerText = msg;
-    }
-    
-    // Initial Setup
-    document.querySelector('a[href="#slide12"]').addEventListener('click', showStartScreen);
-    </script>
 </div>
 
 <!-- SLIDE 14: Penutup -->
 <div class="slide-container" id="slide14">
     <div class="slide-number">14 / 14</div>
     <div class="content-area" style="text-align: center;">
-        <i class="fas fa-award" style="font-size: 80px; color: #11caa0; margin-bottom: 25px; animation: float 3s infinite;"></i>
+        <i class="fas fa-award" style="font-size: 80px; color: #11caa0; margin-bottom: 25px;"></i>
         <h1>MODUL 2 SELESAI</h1>
-        <div style="width: 100px; height: 5px; background: #005088; margin: 30px auto;"></div>
-        <p style="font-size: 24px; max-width: 800px; margin: 0 auto;">"EKSA yang berjaya bermula dengan perancangan yang teliti dan berakhir dengan kualiti kerja harian yang konsisten."</p>
-        <p style="margin-top: 50px; font-weight: 700; color: #11caa0;">MODUL SETERUSNYA: TEKNIK PENGAUDITAN EKSA</p>
+        <p style="font-size: 24px;">"EKSA bermula dengan perancangan teliti & kualiti kerja harian."</p>
     </div>
     <div class="nav-footer">
         <a href="#slide1" class="nav-btn home"><i class="fas fa-redo"></i> Mula Semula</a>
     </div>
 </div>
+
+<script>
+// Logik Kuiz Ringkas
+let score = 0;
+let currentQ = 0;
+const quizData = [
+    {q:"Apakah maksud Komponen A?", a:"Keperluan Utama", o:["Tempat Umum","Keperluan Utama","Keselamatan","Ruang Kerja"]},
+    {q:"Tempoh masa cari fail?", a:"30 Saat", o:["1 Minit","30 Saat","5 Minit","10 Saat"]}
+];
+
+function startQuiz() {
+    document.getElementById('quizStartOverlay').style.display = 'none';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if(currentQ >= quizData.length) {
+        document.getElementById('quizOverlay').style.display = 'flex';
+        document.getElementById('finalScore').innerText = score + "/" + quizData.length;
+        return;
+    }
+    const data = quizData[currentQ];
+    document.getElementById('qText').innerText = data.q;
+    const grid = document.getElementById('optionsGrid');
+    grid.innerHTML = '';
+    data.o.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => { if(opt === data.a) score++; currentQ++; loadQuestion(); };
+        grid.appendChild(btn);
+    });
+    document.getElementById('scoreDisplay').innerText = score;
+}
+</script>
 
 </body>
 </html>
