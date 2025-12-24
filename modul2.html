@@ -11,7 +11,7 @@
     <style>
         /* 1. SETUP ASAS */
         * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { background-color: #f1f5f9; margin: 0; padding: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 30px; font-family: "DM Sans", sans-serif; }
+        body { background-color: #f1f5f9; margin: 0; padding: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 30px; font-family: "DM Sans", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         p { margin: 0; margin-bottom: 10px; line-height: 1.5; color: #334155; font-size: 15px; }
 
         .slide-container {
@@ -98,56 +98,23 @@
         .card-back h3 { color: #11caa0; margin-bottom: 8px; font-size: 18px; }
         .card-back p { color: #f3f0df; font-size: 13px; line-height: 1.4; }
         
-        /* ---------------------------------------------------- */
-        /* CSS KHUSUS UNTUK SLIDE 10 (Photo Flip Cards) */
-        /* ---------------------------------------------------- */
+        /* PHOTO CARD STYLE (Slide 10) */
         .photo-card .card-front {
-            padding: 0 !important;
-            border: none !important;
-            overflow: hidden;
-            background-color: #f1f5f9; /* Background neutral jika gambar loading */
+            padding: 0 !important; border: none !important; overflow: hidden; background-color: #f1f5f9;
         }
-        
         .photo-card .card-front img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 1;
+            width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1;
         }
-        
-        /* Overlay Gelap supaya tulisan nampak */
         .photo-card .card-front::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 60%);
-            z-index: 2;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 60%); z-index: 2;
         }
-
         .photo-card .card-front h3 {
-            position: relative;
-            z-index: 3;
-            color: #ffffff !important;
-            margin-top: auto; /* Tolak teks ke bawah */
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            font-size: 22px;
-            letter-spacing: 1px;
+            position: relative; z-index: 3; color: #ffffff !important; margin-top: auto; margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8); font-size: 22px; letter-spacing: 1px;
         }
-
-        .photo-card .card-back {
-            padding: 30px 20px;
-        }
-        
-        .photo-card .card-back i {
-            font-size: 40px;
-            color: #11caa0;
-            margin-bottom: 15px;
-        }
-        /* ---------------------------------------------------- */
+        .photo-card .card-back { padding: 30px 20px; }
+        .photo-card .card-back i { font-size: 40px; color: #11caa0; margin-bottom: 15px; }
 
         .card-img-holder {
             width: 100%; height: 80px; 
@@ -164,10 +131,6 @@
         .reveal-btn:hover { background: #ea580c; transform: translateY(-2px); }
         .reveal-content { display: none; margin-top: 10px; padding: 12px; background: rgba(255,255,255,0.8); border-radius: 8px; border-left: 4px solid #f97316; }
 
-        .sheet-placeholder { width: 100%; height: 350px; background: #f0fdf4; border: 3px dashed #16a34a; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: 0.3s; }
-        .sheet-placeholder:hover { background: #dcfce7; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .sheet-icon { font-size: 60px; color: #16a34a; margin-bottom: 15px; }
-        
         .g-sheet-btn { background: #16a34a; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; border: none; cursor: pointer; font-size: 14px; }
         .g-sheet-btn:hover { background: #15803d; box-shadow: 0 6px 8px rgba(0,0,0,0.15); transform: translateY(-2px); }
 
@@ -179,32 +142,46 @@
         .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #e0f2fe; padding: 8px 20px; border-radius: 8px; border-left: 5px solid #005088; flex-shrink: 0; }
         .quiz-timer { font-weight: 700; color: #64748b; font-size: 16px; display: flex; align-items: center; gap: 8px; }
         .question-timer-box { background: #fff; padding: 5px 15px; border-radius: 20px; border: 2px solid #ef4444; color: #ef4444; font-weight: 700; display: flex; align-items: center; gap: 5px; font-size: 18px; min-width: 100px; justify-content: center; }
-        .question-timer-box.hurry { animation: timerPulse 0.5s infinite; background-color: #fee2e2; }
         .quiz-score { font-weight: 700; color: #005088; font-size: 18px; }
         .pause-btn { background: #f59e0b; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px; font-size: 14px; transition: 0.2s; }
-        .pause-btn:hover { opacity: 0.9; }
         .pause-btn.resume { background: #16a34a; }
 
         .question-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex-grow: 1; min-height: 0; display: flex; flex-direction: column; border: 1px solid #cbd5e1; overflow-y: auto; }
         .question-text { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #334155; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .option-btn { background: #f1f5f9; border: 2px solid #cbd5e1; padding: 12px 15px; border-radius: 8px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 14px; font-family: "DM Sans", sans-serif; color: #334155; font-weight: 500; display: flex; gap: 10px; align-items: center; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-btn { background: #f1f5f9; border: 2px solid #cbd5e1; padding: 12px 15px; border-radius: 8px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 14px; color: #334155; font-weight: 500; display: flex; gap: 10px; align-items: center; }
         .option-btn:hover { background: #e0f2fe; border-color: #005088; }
-        .option-btn.correct { background: #dcfce7; border-color: #166534; color: #166534; }
-        .option-btn.wrong { background: #fee2e2; border-color: #991b1b; color: #991b1b; }
+        .option-label { width: 30px; height: 30px; background: #005088; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+        
         .quiz-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.98); z-index:30; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; border-radius: 8px; }
         .result-score { font-size: 60px; font-weight: 900; color: #005088; margin: 10px 0; }
-        .quiz-instruction { text-align: center; color: #ef4444; font-size: 13px; margin-top: 10px; margin-bottom: 5px; font-weight: 600; background: #fee2e2; padding: 8px; border-radius: 5px; flex-shrink: 0; }
 
+        /* ---------------------------------------------------- */
+        /* PERBAIKAN FONT SLIDE 12 (Kualiti Tajam) */
+        /* ---------------------------------------------------- */
         .interactive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; height: 340px; }
-        .grid-card { background: white; border: 1px solid #cdd6e2; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
+        .grid-card { 
+            background: white; border: 1px solid #cdd6e2; border-radius: 10px; padding: 15px; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; 
+        }
         .grid-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: #11caa0; }
         .grid-card i { font-size: 40px; color: #005088; margin-bottom: 10px; transition: 0.3s; }
         .grid-card h3 { margin: 0; color: #334155; font-size: 18px; transition: 0.3s; }
-        .grid-details { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #005088; color: white; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; transform: scale(0.9); }
-        .grid-details p { color: white !important; font-size: 14px; }
-        .grid-details h3 { color: #11caa0 !important; margin-bottom: 10px; font-size: 18px; }
-        .grid-card:hover .grid-details { opacity: 1; transform: scale(1); }
+        
+        .grid-details { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #005088; color: white; padding: 25px; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            opacity: 0; transition: opacity 0.3s ease; /* Hanya guna opacity untuk elak kabur */
+            z-index: 5;
+        }
+        .grid-card:hover .grid-details { opacity: 1; }
+        
+        /* Teks di dalam Grid Details Slide 12 */
+        .grid-details h3 { color: #11caa0 !important; font-size: 18px; font-weight: 700; margin-bottom: 8px; text-shadow: none; }
+        .grid-details p { color: #ffffff !important; font-size: 14px; font-weight: 500; line-height: 1.4; text-shadow: none; }
+        /* ---------------------------------------------------- */
 
         .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; }
         .image-wrapper { border-radius: 10px; height: 300px; overflow: hidden; border: 1px solid #cdd6e2; width: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; position: relative; }
@@ -216,20 +193,15 @@
         .table-layout table { width: 100%; border-collapse: collapse; background: #fff; }
         .table-layout th { background: #005088; color: #fff; padding: 12px; text-align: left; font-size: 14px; }
         .table-layout td { padding: 10px 12px; border-bottom: 1px solid #cdd6e2; font-size: 13px; }
-        .table-layout tr:nth-child(even) { background: #f9fafb; }
 
         .drawer-container { display: flex; gap: 15px; width: 100%; height: 300px; }
         .drawer-stack { flex: 1; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
         .drawer-btn { background: linear-gradient(to right, #f1f5f9, #e2e8f0); border: 2px solid #cbd5e1; border-radius: 6px; padding: 15px 20px; font-weight: 700; color: #334155; cursor: pointer; text-align: left; transition: 0.3s; position: relative; font-size: 14px; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         .drawer-btn:hover, .drawer-btn.active { background: #005088; color: white; border-color: #003366; transform: translateX(5px); }
-        .drawer-btn i { opacity: 0; transition: 0.3s; }
-        .drawer-btn.active i { opacity: 1; }
         .drawer-content-display { flex: 1.5; background: white; border: 3px solid #11caa0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
         .drawer-content-display.flash { animation: highlightFlash 0.5s ease; }
-        .drawer-icon { font-size: 50px; color: #11caa0; margin-bottom: 15px; }
 
         .parking-sim { width: 100%; height: 300px; background: #e2e8f0; border-radius: 12px; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid #cbd5e1; }
-        .parking-item { transition: 0.5s; text-align: center; position: relative; z-index: 2; }
         .parking-item i { font-size: 80px; color: #64748b; transition: 0.3s; }
         .parking-lines { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); width: 180px; height: 180px; border: 5px dashed #f97316; border-radius: 10px; transition: 0.5s; opacity: 0; z-index: 1; background: rgba(249, 115, 22, 0.05); }
         .parking-label { margin-top: 10px; background: #005088; color: white; padding: 5px 15px; border-radius: 4px; opacity: 0; transition: 0.5s; transform: translateY(10px); font-weight: 700; font-size: 13px; }
@@ -241,13 +213,8 @@
         .hook-container { display: flex; gap: 30px; width: 100%; height: 100%; justify-content: center; align-items: center; }
         .hook-choice { width: 45%; height: 350px; border-radius: 15px; position: relative; cursor: pointer; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; border: 4px solid transparent; }
         .hook-choice img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .hook-choice:hover img { transform: scale(1.1); }
         .hook-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
         .hook-choice:hover .hook-overlay { opacity: 1; }
-        .hook-overlay h2 { color: white; font-size: 28px; margin-bottom: 10px; }
-        .hook-overlay p { color: #f3f0df; font-size: 16px; text-align: center; padding: 0 20px; }
-        .hook-choice.bad:hover { border-color: #ef4444; }
-        .hook-choice.good:hover { border-color: #11caa0; }
         .hook-label { position: absolute; top: 15px; left: 15px; background: #005088; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: 900; z-index: 5; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: 2px solid white; }
 
     </style>
@@ -456,7 +423,7 @@
                 <div class="drawer-btn" onclick="openDrawer('bot', this)">Laci 3: Bawah (Peribadi) <i class="fas fa-check"></i></div>
             </div>
             <div class="drawer-content-display" id="drawerDisplay">
-                <i class="fas fa-hand-pointer drawer-icon" style="color:#94a3b8;"></i>
+                <i class="fas fa-hand-pointer drawer-icon" style="color:#94a3b8; font-size: 50px;"></i>
                 <h3 style="color:#334155;">Sila Pilih Laci</h3>
                 <p style="color:#64748b; font-size:15px;">Klik butang di sebelah kiri untuk melihat standard susunan.</p>
             </div>
@@ -475,7 +442,7 @@
                     'mid': { icon: 'fa-folder-open', title: 'LACI TENGAH: DOKUMEN RASMI', text: 'Buku catatan atau diari rasmi sahaja. Standard: Susunan kemas, mudah dicapai.' },
                     'bot': { icon: 'fa-user-lock', title: 'LACI BAWAH: PERIBADI', text: 'Beg tangan, dompet, kasut tambahan (minimum). Kemas & tidak berbau.' }
                 };
-                display.innerHTML = `<i class="fas ${content[type].icon} drawer-icon"></i><h3 style="color:#005088; text-transform:uppercase;">${content[type].title}</h3><p style="font-size:15px; color:#334155;">${content[type].text}</p>`;
+                display.innerHTML = `<i class="fas ${content[type].icon}" style="font-size:50px; color:#11caa0; margin-bottom:15px;"></i><h3 style="color:#005088; text-transform:uppercase;">${content[type].title}</h3><p style="font-size:15px; color:#334155;">${content[type].text}</p>`;
             }
         </script>
     </div>
@@ -627,14 +594,13 @@
     </div>
 </div>
 
-<!-- SLIDE 13: QR CODE TOOLKIT (SLIDE BARU) -->
+<!-- SLIDE 13 -->
 <div class="slide-container" id="slide13">
     <div class="slide-number">13 / 15</div>
     <h2 class="slide-title">Imbas QR Code ToolKit</h2>
     <div class="content-area" style="align-items: center;">
         <p style="margin-bottom: 20px; font-weight: 700; color: #005088;"> TOOLKIT MODUL PELAKSANAAN EKSA</p>
         <div class="image-wrapper" style="width: 300px; height: 300px; padding: 10px; background: white; border: 4px solid #005088;">
-            <!-- Imej QR_Toolkit.jpg anda sendiri -->
             <img src="QR_Toolkit.jpg" alt="QR Code ToolKit" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <p style="margin-top: 20px; color: #64748b; font-style: italic;">Sila imbas untuk capaian pantas dokumen rujukan amali.</p>
@@ -645,27 +611,44 @@
     </div>
 </div>
 
-<!-- SLIDE 14 -->
+<!-- SLIDE 14: KUIZ DINAMIK -->
 <div class="slide-container" id="slide14">
     <div class="slide-number">14 / 15</div>
-    <div class="final-quiz-container">
+    <div class="final-quiz-container" id="quizContainer">
+        <!-- Start Overlay -->
         <div class="quiz-overlay" id="quizStartOverlay" style="display:flex;">
             <i class="fas fa-clipboard-question" style="font-size: 60px; color: #005088; margin-bottom: 20px;"></i>
             <h2>Ujian Kefahaman Modul 2</h2>
+            <p style="margin-bottom:20px;">20 Soalan | 10 Minit</p>
             <button class="nav-btn" onclick="startQuiz()">Mula Kuiz <i class="fas fa-play"></i></button>
         </div>
+
         <div class="quiz-header">
-            <div class="quiz-timer"><i class="fas fa-stopwatch"></i> <span id="timeDisplay">10:00</span></div>
-            <div class="quiz-score">Markah: <span id="scoreDisplay">0</span>/20</div>
+            <div class="quiz-timer">
+                <i class="fas fa-stopwatch"></i> <span id="timeDisplay">10:00</span>
+                <button class="pause-btn" id="pauseBtn" onclick="togglePause()" style="margin-left:15px;">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+            </div>
+            <div class="quiz-score">Markah: <span id="scoreDisplay">0</span></div>
         </div>
-        <div class="question-card">
-            <div class="question-text" id="qText">Tekan Mula untuk menjawab...</div>
-            <div class="options-grid" id="optionsGrid"></div>
+
+        <div class="question-card" id="qCard">
+            <div style="font-size:12px; color:#64748b; margin-bottom:5px;" id="qProgress">Soalan 1 / 20</div>
+            <div class="question-text" id="qText">Sila tekan butang mula untuk menjawab soalan kuiz...</div>
+            <div class="options-grid" id="optionsGrid">
+                <!-- Buttons generated via JS -->
+            </div>
         </div>
-        <div class="quiz-overlay" id="quizOverlay">
-            <h2>Tamat!</h2>
-            <div class="result-score" id="finalScore">0/20</div>
-            <button class="nav-btn" onclick="location.reload()">Cuba Lagi</button>
+
+        <!-- Result Overlay -->
+        <div class="quiz-overlay" id="quizResultOverlay">
+            <i class="fas fa-trophy" style="font-size: 60px; color: #f59e0b; margin-bottom: 15px;"></i>
+            <h2>Kuiz Tamat!</h2>
+            <p>Keputusan Anda:</p>
+            <div class="result-score" id="finalScoreDisplay">0 / 20</div>
+            <p id="resultMsg" style="font-weight:700; margin-bottom:20px;"></p>
+            <button class="nav-btn" onclick="resetQuiz()">Cuba Lagi <i class="fas fa-redo"></i></button>
         </div>
     </div>
     <div class="nav-footer">
@@ -688,38 +671,133 @@
 </div>
 
 <script>
-// Logik Kuiz Ringkas
-let score = 0;
-let currentQ = 0;
-const quizData = [
-    {q:"Apakah maksud Komponen A?", a:"Keperluan Utama", o:["Tempat Umum","Keperluan Utama","Keselamatan","Ruang Kerja"]},
-    {q:"Tempoh masa cari fail?", a:"30 Saat", o:["1 Minit","30 Saat","5 Minit","10 Saat"]}
+/* QUIZ LOGIC */
+const quizQuestions = [
+    { q: "Apakah maksud Komponen A dalam Audit EKSA?", o: ["Keperluan Utama", "Keselamatan", "Tempat Umum", "Ruang Kerja"], a: 0 },
+    { q: "Standard masa untuk mencari fail di agensi yang mengamalkan EKSA ialah...", o: ["1 Minit", "10 Saat", "30 Saat", "5 Minit"], a: 2 },
+    { q: "Dasar EKSA yang telah disahkan mesti dipamerkan di...", o: ["Bilik Fail", "Sudut EKSA", "Pantri", "Laci Meja"], a: 1 },
+    { q: "Sistem 'Food Tagging' diamalkan di ruang...", o: ["Pejabat", "Bilik Mesyuarat", "Pantri", "Stor"], a: 2 },
+    { q: "Apakah elemen utama dalam kitaran penambahbaikan EKSA?", o: ["SOP", "5S", "PDCA", "KPI"], a: 2 },
+    { q: "Berapakah bilangan laci standard untuk meja kerja warga agensi?", o: ["2", "3", "4", "1"], a: 1 },
+    { q: "Laci paling atas biasanya dikhaskan untuk...", o: ["Barang Peribadi", "Alat Tulis", "Fail Aktif", "Kasut"], a: 1 },
+    { q: "Label 'Before & After' biasanya disimpan di dalam...", o: ["Fail Zon", "Minit Mesyuarat", "Dasar EKSA", "Papan Putih"], a: 0 },
+    { q: "Siapakah yang bertanggungjawab ke atas kebersihan di laluan 'No Man's Land'?", o: ["Pekerja Pembersihan", "Pengawal", "Pemilik Zon", "Tiada"], a: 2 },
+    { q: "Selepas mesyuarat selesai, kerusi hendaklah disusun...", o: ["Di sudut bilik", "Rapat ke meja", "Bersepah", "Di luar bilik"], a: 1 },
+    { q: "Apakah warna tong kitar semula untuk Kertas?", o: ["Coklat", "Biru", "Jingga", "Hijau"], a: 1 },
+    { q: "Laci paling bawah digunakan untuk menyimpan...", o: ["Dokumen Rasmi", "Alat Tulis", "Barang Peribadi", "Makanan"], a: 2 },
+    { q: "Alatan yang digunakan bersama mesti mempunyai...", o: ["Nama Pemilik", "Warna Menarik", "Label & Tapak Parkir", "Kunci"], a: 2 },
+    { q: "Komponen C dalam Audit EKSA merujuk kepada...", o: ["Ruang Kerja", "Tempat Umum", "Keselamatan", "Amalan Hijau"], a: 1 },
+    { q: "Apakah amalan utama bagi Pejabat Go-Green?", o: ["Guna Lampu Terang", "Penjimatan Tenaga", "Banyak Hiasan", "Karpet Tebal"], a: 1 },
+    { q: "Wayar PC yang berserabut di lantai melanggar aspek...", o: ["Imej Korporat", "Keselamatan", "Keseragaman", "Semua di atas"], a: 3 },
+    { q: "Alat pemadam api mesti diletakkan di tempat yang...", o: ["Tersorok", "Bebas Halangan", "Tinggi", "Kunci"], a: 1 },
+    { q: "Tindakan OFI (Opportunity For Improvement) dibuat selepas...", o: ["Gotong-Royong", "Makan Tengahari", "Audit EKSA", "Cuti Tahunan"], a: 2 },
+    { q: "Carta Organisasi EKSA diletakkan di bawah Komponen...", o: ["A", "B", "C", "D"], a: 0 },
+    { q: "Susunan fail yang seragam mengikut unit merujuk kepada...", o: ["Sisih", "Sapu", "Susun", "Sentiasa Amal"], a: 2 }
 ];
+
+let currentQ = 0;
+let score = 0;
+let timeRemaining = 600; // 10 minutes
+let timerId = null;
+let isPaused = false;
 
 function startQuiz() {
     document.getElementById('quizStartOverlay').style.display = 'none';
+    currentQ = 0;
+    score = 0;
+    timeRemaining = 600;
+    isPaused = false;
+    updateScore();
     loadQuestion();
+    startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+        if (!isPaused) {
+            timeRemaining--;
+            updateTimerDisplay();
+            if (timeRemaining <= 0) endQuiz();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const mins = Math.floor(timeRemaining / 60);
+    const secs = timeRemaining % 60;
+    document.getElementById('timeDisplay').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    if (timeRemaining < 60) {
+        document.getElementById('timeDisplay').style.color = '#ef4444';
+    }
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    const btn = document.getElementById('pauseBtn');
+    btn.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
+    document.getElementById('qCard').style.opacity = isPaused ? '0.3' : '1';
+    document.getElementById('qCard').style.pointerEvents = isPaused ? 'none' : 'auto';
 }
 
 function loadQuestion() {
-    if(currentQ >= quizData.length) {
-        document.getElementById('quizOverlay').style.display = 'flex';
-        document.getElementById('finalScore').innerText = score + "/" + quizData.length;
-        return;
-    }
-    const data = quizData[currentQ];
-    document.getElementById('qText').innerText = data.q;
+    const qData = quizQuestions[currentQ];
+    document.getElementById('qProgress').innerText = `Soalan ${currentQ + 1} / ${quizQuestions.length}`;
+    document.getElementById('qText').innerText = qData.q;
+    
     const grid = document.getElementById('optionsGrid');
     grid.innerHTML = '';
-    data.o.forEach(opt => {
+    
+    const labels = ["A", "B", "C", "D"];
+    qData.o.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
-        btn.innerText = opt;
-        btn.onclick = () => { if(opt === data.a) score++; currentQ++; loadQuestion(); };
+        btn.innerHTML = `<span class="option-label">${labels[idx]}</span> <span>${opt}</span>`;
+        btn.onclick = () => checkAnswer(idx);
         grid.appendChild(btn);
     });
+}
+
+function checkAnswer(idx) {
+    if (isPaused) return;
+    if (idx === quizQuestions[currentQ].a) {
+        score++;
+    }
+    updateScore();
+    currentQ++;
+    if (currentQ < quizQuestions.length) {
+        loadQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function updateScore() {
     document.getElementById('scoreDisplay').innerText = score;
 }
+
+function endQuiz() {
+    clearInterval(timerId);
+    document.getElementById('quizResultOverlay').style.display = 'flex';
+    document.getElementById('finalScoreDisplay').innerText = `${score} / ${quizQuestions.length}`;
+    
+    let msg = "";
+    const percentage = (score / quizQuestions.length) * 100;
+    if (percentage >= 80) msg = "Cemerlang! Anda pakar EKSA.";
+    else if (percentage >= 50) msg = "Bagus! Teruskan usaha anda.";
+    else msg = "Cuba lagi. Rujuk nota amali fizikal.";
+    
+    document.getElementById('resultMsg').innerText = msg;
+}
+
+function resetQuiz() {
+    document.getElementById('quizResultOverlay').style.display = 'none';
+    document.getElementById('quizStartOverlay').style.display = 'flex';
+    document.getElementById('timeDisplay').style.color = '#64748b';
+}
+
+/* Ensure timer starts visually at 10:00 */
+updateTimerDisplay();
 </script>
 
 </body>
