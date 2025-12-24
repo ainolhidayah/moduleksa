@@ -21,13 +21,11 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-        /* 3D Flip Card Styles - Robust Fix */
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
         .backface-hidden { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
         
-        /* Custom scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
@@ -59,7 +57,8 @@
             Info: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
             Close: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
             Shield: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-            UserCheck: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+            UserCheck: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>,
+            QrCode: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3"/><path d="M7 12h3"/><path d="M12 12h.01"/><path d="M16 12h3"/><path d="M21 12v.01"/><path d="M12 16v.01"/><path d="M16 16h.01"/><path d="M12 21h.01"/></svg>
         };
 
         // --- DATA SLAID (26 SLIDES) ---
@@ -159,7 +158,25 @@
                 ]
             },
             {
-                title: "10. Enam Komponen Utama",
+                title: "10. QR Code Kriteria Audit EKSA",
+                content: "Dapatkan akses pantas kepada kriteria lengkap Audit EKSA. Imbas atau klik untuk rujukan.",
+                bgGradient: "from-indigo-500 to-blue-800",
+                interactiveItems: [
+                    { 
+                        label: "Imbas QR Code", 
+                        detail: "Sila imbas QR Code ini untuk melihat kriteria audit terperinci.", 
+                        icon: Icons.QrCode,
+                        image: "qr-audit-eksa.png" 
+                    },
+                    { 
+                        label: "Rujukan Pantas", 
+                        detail: "QR Code ini memudahkan auditor dan agensi merujuk kriteria Komponen A hingga F secara digital.", 
+                        icon: Icons.Info 
+                    }
+                ]
+            },
+            {
+                title: "11. Enam Komponen Utama",
                 content: "Skop penilaian EKSA yang menyeluruh.",
                 bgGradient: "from-green-600 to-emerald-700",
                 interactiveItems: [
@@ -172,7 +189,7 @@
                 ]
             },
             {
-                title: "11. Komponen A: Dasar",
+                title: "12. Komponen A: Dasar",
                 content: "Aspek tadbir urus dan pengurusan.",
                 bgGradient: "from-red-600 to-orange-700",
                 interactiveItems: [
@@ -183,7 +200,7 @@
                 ]
             },
             {
-                title: "12. Komponen B: Fizikal",
+                title: "13. Komponen B: Fizikal",
                 content: "Keadaan infrastruktur pejabat.",
                 bgGradient: "from-blue-600 to-cyan-600",
                 interactiveItems: [
@@ -193,7 +210,7 @@
                 ]
             },
             {
-                title: "13. Komponen B: Ruang Kerja",
+                title: "14. Komponen B: Ruang Kerja",
                 content: "Kekemasan tempat kerja individu dan gunasama.",
                 bgGradient: "from-blue-700 to-indigo-700",
                 interactiveItems: [
@@ -203,7 +220,7 @@
                 ]
             },
             {
-                title: "14. Komponen C: Umum",
+                title: "15. Komponen C: Umum",
                 content: "Imej korporat di mata pelanggan.",
                 bgGradient: "from-violet-600 to-purple-600",
                 interactiveItems: [
@@ -213,7 +230,7 @@
                 ]
             },
             {
-                title: "15. Komponen C: Fasiliti",
+                title: "16. Komponen C: Fasiliti",
                 content: "Kemudahan untuk keselesaan warga.",
                 bgGradient: "from-fuchsia-600 to-pink-600",
                 interactiveItems: [
@@ -223,7 +240,7 @@
                 ]
             },
             {
-                title: "16. Komponen D: Keselamatan",
+                title: "17. Komponen D: Keselamatan",
                 content: "Aspek kritikal keselamatan nyawa dan harta benda.",
                 bgGradient: "from-rose-600 to-red-700",
                 interactiveItems: [
@@ -233,7 +250,7 @@
                 ]
             },
             {
-                title: "17. Komponen E: Luar",
+                title: "18. Komponen E: Luar",
                 content: "Kawasan persekitaran luar bangunan.",
                 bgGradient: "from-green-600 to-lime-600",
                 interactiveItems: [
@@ -243,7 +260,7 @@
                 ]
             },
             {
-                title: "18. Komponen F: Pengenalan",
+                title: "19. Komponen F: Pengenalan",
                 content: "Kriteria khusus mengikut jenis agensi.",
                 bgGradient: "from-gray-600 to-slate-700",
                 interactiveItems: [
@@ -252,7 +269,7 @@
                 ]
             },
             {
-                title: "19. F: Sekolah & Latihan",
+                title: "20. F: Sekolah & Latihan",
                 content: "Persekitaran pembelajaran kondusif.",
                 bgGradient: "from-yellow-600 to-orange-600",
                 interactiveItems: [
@@ -262,7 +279,7 @@
                 ]
             },
             {
-                title: "20. F: Kesihatan & Keselamatan",
+                title: "21. F: Kesihatan & Keselamatan",
                 content: "Agensi kritikal.",
                 bgGradient: "from-blue-800 to-slate-800",
                 interactiveItems: [
@@ -272,7 +289,7 @@
                 ]
             },
             {
-                title: "21. Etika Auditor: Objektif",
+                title: "22. Etika Auditor: Objektif",
                 content: "Garis panduan untuk memastikan penilaian dilaksanakan dengan profesional, beretika, dan mengikut standard yang ditetapkan.",
                 bgGradient: "from-stone-700 to-neutral-800",
                 interactiveItems: [
@@ -282,7 +299,7 @@
                 ]
             },
             {
-                title: "22. Nilai Teras 1: Profesional & Integriti",
+                title: "23. Nilai Teras 1: Profesional & Integriti",
                 content: "Asas keperibadian juruaudit yang unggul.",
                 bgGradient: "from-blue-800 to-indigo-900",
                 interactiveItems: [
@@ -292,7 +309,7 @@
                 ]
             },
             {
-                title: "23. Nilai Teras 2: Kompetensi & Tadbir Urus",
+                title: "24. Nilai Teras 2: Kompetensi & Tadbir Urus",
                 content: "Keupayaan intelek dan pengurusan audit yang cekap.",
                 bgGradient: "from-teal-700 to-emerald-800",
                 interactiveItems: [
@@ -302,17 +319,17 @@
                 ]
             },
             {
-                title: "24. Nilai Teras 3: Disiplin & Keadilan",
+                title: "25. Nilai Teras 3: Disiplin & Keadilan",
                 content: "Kawalan diri dan prinsip kesaksamaan.",
                 bgGradient: "from-purple-800 to-violet-900",
                 interactiveItems: [
                     { label: "Disiplin Diri", detail: "Menghindarkan perilaku negatif, menjaga imej, dan berkomunikasi dengan berhemah.", icon: Icons.UserCheck },
-                    { label: "Bebas & Adil", detail: "Bertindak secara bebas tanpa pengaruh luar, adil, dan saksama dalam penilaian.", icon: Icons.CheckSquare },
+                    { label: "Bebas & Adil", detail: "Bertindak secara bebas tanpa pengaruh luar, adil, and saksama dalam penilaian.", icon: Icons.CheckSquare },
                     { label: "Kerja Berpasukan", detail: "Memupuk semangat kerjasama yang tinggi dalam pasukan audit.", icon: Icons.Users }
                 ]
             },
             {
-                title: "25. Kesimpulan",
+                title: "26. Kesimpulan",
                 content: "Rumusan akhir modul.",
                 bgGradient: "from-slate-700 to-gray-800",
                 interactiveItems: [
@@ -323,7 +340,7 @@
             }
         ];
 
-        // --- DATA FLASHCARDS (30 KAD) ---
+        // --- FLASHCARDS & QUIZ DATA ---
         const flashcardsData = [
             { q: "Maksud EKSA?", a: "Ekosistem Kondusif Sektor Awam" },
             { q: "Jumlah Komponen?", a: "6 (A, B, C, D, E, F)" },
@@ -357,16 +374,12 @@
             { q: "Objektif Exit Conference?", a: "Makluman penemuan audit kepada agensi" }
         ];
 
-        // --- 50 SOALAN KUIZ ---
         const quizQuestions = [
-            // --- UMUM (1-5) ---
             { q: "EKSA adalah singkatan bagi?", options: ["Ekosistem Kondusif Sektor Awam", "Ekonomi Kondusif Sektor Awam", "Etika Kerja Sektor Awam", "Evolusi Kualiti Sektor Awam"], a: 0, img: "https://placehold.co/600x300/1e293b/FFF?text=Definisi+EKSA" },
             { q: "Berapakah jumlah komponen utama dalam penilaian EKSA?", options: ["4", "5", "6", "7"], a: 2, img: "https://placehold.co/600x300/1e293b/FFF?text=Bilangan+Komponen" },
             { q: "Permohonan pengauditan perlu dihantar berapa bulan sebelum tarikh audit?", options: ["1 bulan", "2 bulan", "3 bulan", "6 bulan"], a: 0, img: "https://placehold.co/600x300/1e293b/FFF?text=Tempoh+Permohonan" },
             { q: "Berapakah markah minimum Audit Dalam untuk melayakkan permohonan audit persijilan?", options: ["70%", "75%", "80%", "85%"], a: 2, img: "https://placehold.co/600x300/1e293b/FFF?text=Markah+Lulus+Audit" },
             { q: "Tempoh sah laku sijil EKSA adalah selama?", options: ["1 Tahun", "2 Tahun", "3 Tahun", "5 Tahun"], a: 1, img: "https://placehold.co/600x300/1e293b/FFF?text=Sah+Laku+Sijil" },
-            
-            // --- KOMPONEN A (6-12) ---
             { q: "Komponen A memfokuskan kepada?", options: ["Tempat Umum", "Keperluan Utama Pelaksanaan", "Keselamatan", "Ruang Kerja"], a: 1, img: "https://placehold.co/600x300/dc2626/FFF?text=Fokus+Komponen+A" },
             { q: "Manakah antara berikut BUKAN elemen dalam Komponen A?", options: ["Dasar EKSA", "Jawatankuasa Pelaksana", "Kebersihan Tandas", "Go Green"], a: 2, img: "https://placehold.co/600x300/dc2626/FFF?text=Elemen+Komponen+A" },
             { q: "Apakah tujuan Jawatankuasa Pelaksana?", options: ["Menghias pejabat", "Merancang pelaksanaan EKSA", "Menjaga parkir", "Membuat kopi"], a: 1, img: "https://placehold.co/600x300/dc2626/FFF?text=Tujuan+Jawatankuasa" },
@@ -374,8 +387,6 @@
             { q: "Sudut Kreativiti & Inovasi bertujuan untuk?", options: ["Pameran lukisan", "Menggalakkan idea warga guna bahan terpakai", "Tempat bermain", "Hiasan semata-mata"], a: 1, img: "https://placehold.co/600x300/f59e0b/FFF?text=Inovasi+Kreativiti" },
             { q: "Pelaksanaan EKSA perlu mendapat sokongan daripada?", options: ["Pengurusan Atasan", "Kerani sahaja", "Pewani sahaja", "Kontraktor"], a: 0, img: "https://placehold.co/600x300/dc2626/FFF?text=Sokongan+Pengurusan" },
             { q: "Analisis penjimatan (kos/masa) adalah sebahagian daripada kriteria?", options: ["A1", "A5", "A7 (Go Green)", "B2"], a: 2, img: "https://placehold.co/600x300/16a34a/FFF?text=Analisis+Penjimatan" },
-
-            // --- KOMPONEN B (13-20) ---
             { q: "Komponen B menilai aspek apa?", options: ["Kawasan Luar", "Tempat Khusus", "Ruang Tempat Kerja", "Keselamatan"], a: 2, img: "https://placehold.co/600x300/2563eb/FFF?text=Fokus+Komponen+B" },
             { q: "Bagaimanakah keadaan lantai yang mematuhi piawaian EKSA?", options: ["Berkarpet tebal", "Selamat, tidak licin & tiada sampah", "Berwarna warni", "Dipenuhi kotak"], a: 1, img: "https://placehold.co/600x300/2563eb/FFF?text=Keadaan+Lantai" },
             { q: "Peralatan di atas meja kerja (workstation) perlulah?", options: ["Banyak & padat", "Disusun kemas & perlu sahaja", "Semua barang peribadi", "Tiada apa-apa"], a: 1, img: "https://placehold.co/600x300/2563eb/FFF?text=Meja+Kerja" },
@@ -384,8 +395,6 @@
             { q: "Wayar dan soket elektrik hendaklah?", options: ["Berserabut", "Disorok bawah karpet", "Dikemas rapi & dilabel", "Dibiarkan berjuntai"], a: 2, img: "https://placehold.co/600x300/2563eb/FFF?text=Pengurusan+Kabel" },
             { q: "Apakah yang perlu ada pada laci meja pegawai?", options: ["Sampah", "Label kandungan laci", "Makanan", "Baju"], a: 1, img: "https://placehold.co/600x300/2563eb/FFF?text=Laci+Meja" },
             { q: "Stor peralatan pejabat perlu mengamalkan konsep?", options: ["FIFO (First In First Out)", "LIFO", "Main campak", "Simpan sampai luput"], a: 0, img: "https://placehold.co/600x300/2563eb/FFF?text=Stor+Peralatan" },
-
-            // --- KOMPONEN C (21-28) ---
             { q: "Apakah elemen penting di Lobi Utama?", options: ["Mesin basuh", "Buku Kedatangan Pelawat & Direktori", "Katil rehat", "Dapur"], a: 1, img: "https://placehold.co/600x300/7c3aed/FFF?text=Lobi+Utama" },
             { q: "Di Kaunter Utama, apakah yang perlu disediakan?", options: ["Sistem maklum balas pelanggan", "TV besar", "Radio kuat", "Sofa tidur"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Kaunter+Utama" },
             { q: "Tandas yang bertaraf EKSA mestilah?", options: ["Wangi, kering & lengkap kemudahan", "Basah & licin", "Tiada tisu", "Gelap"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Kebersihan+Tandas" },
@@ -394,17 +403,13 @@
             { q: "Surau perlu menyediakan?", options: ["Arah kiblat & sejadah bersih", "TV", "Radio", "Komputer"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Surau" },
             { q: "Ruang menunggu tetamu perlu?", options: ["Selesa & ada bahan bacaan", "Tiada kerusi", "Panas", "Kotor"], a: 0, img: "https://placehold.co/600x300/7c3aed/FFF?text=Ruang+Menunggu" },
             { q: "Perpustakaan atau Pusat Sumber perlu?", options: ["Bising", "Sistem rekod pinjaman teratur", "Gelap", "Berhabuk"], a: 1, img: "https://placehold.co/600x300/7c3aed/FFF?text=Pusat+Sumber" },
-
-            // --- KOMPONEN D (29-35) ---
             { q: "Apakah perkara utama dalam Pelan Tindakan Kecemasan?", options: ["Menu jamuan", "Laluan kecemasan & tempat berkumpul", "Senarai gaji", "Jadual bercuti"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pelan+Kecemasan" },
             { q: "Alat pemadam api mestilah?", options: ["Diselenggara & tidak luput tarikh", "Disorok", "Kosong", "Berkarat"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pemadam+Api" },
             { q: "Laluan kecemasan hendaklah?", options: ["Dihalang kotak", "Bebas daripada halangan", "Gelap", "Sempit"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Laluan+Kecemasan" },
             { q: "Pengurusan kunci pejabat memerlukan?", options: ["Disimpan dalam poket", "Buku log, label & peti keselamatan", "Diletak atas meja", "Dibiarkan di pintu"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pengurusan+Kunci" },
             { q: "Lampu kecemasan (Emergency Light) perlu?", options: ["Berfungsi jika tiada elektrik", "Warna warni", "Berkelip-kelip", "Dipadam sentiasa"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Lampu+Kecemasan" },
-            { q: "Pendawaian elektrik yang selamat adalah?", options: ["Kemas, tidak pecah & diikat rapi", "Terdedah", "Bersambung-sambung berlebihan", "Basah"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pendawaian+Elektrik" },
+            { q: "Pendawaian elektrik yang selamat adalah?", options: ["Kemas, tidak pecah & diikat rapi", "Terdedah", "Bersambung-sung-sung berlebihan", "Basah"], a: 0, img: "https://placehold.co/600x300/b91c1c/FFF?text=Pendawaian+Elektrik" },
             { q: "Tanda arah KELUAR (EXIT) perlu?", options: ["Disorok", "Jelas & menyala", "Kecil", "Warna hitam"], a: 1, img: "https://placehold.co/600x300/b91c1c/FFF?text=Tanda+KELUAR" },
-
-            // --- KOMPONEN E (36-42) ---
             { q: "Tempat meletak kenderaan perlu mempunyai?", options: ["Garisan petak yang jelas", "Lubang", "Semak samun", "Gerai jualan"], a: 0, img: "https://placehold.co/600x300/15803d/FFF?text=Tempat+Parkir" },
             { q: "Pondok pengawal keselamatan perlu?", options: ["Kotor", "Bersih & ada buku daftar pelawat", "Tiada orang", "Gelap"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Pondok+Pengawal" },
             { q: "Kawasan persekitaran (landskap) perlu?", options: ["Rumput panjang", "Dijaga rapi & tiada air bertakung", "Penuh sampah", "Gersang"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Landskap" },
@@ -412,8 +417,6 @@
             { q: "Kemudahan untuk OKU di tempat letak kereta adalah?", options: ["Wajib disediakan & dilabel", "Tidak perlu", "Sama dengan orang lain", "Jauh dari pintu masuk"], a: 0, img: "https://placehold.co/600x300/15803d/FFF?text=Parkir+OKU" },
             { q: "Pagar jabatan hendaklah?", options: ["Berkarat", "Dalam keadaan baik & selamat", "Roboh", "Tiada pagar"], a: 1, img: "https://placehold.co/600x300/15803d/FFF?text=Pagar+Jabatan" },
             { q: "Lampu jalan di kawasan persekitaran perlu?", options: ["Berfungsi waktu malam", "Rosak", "Malap", "Tiada"], a: 0, img: "https://placehold.co/600x300/15803d/FFF?text=Lampu+Jalan" },
-
-            // --- KOMPONEN F (43-50) ---
             { q: "Komponen F merujuk kepada?", options: ["Tempat Umum", "Tempat Khusus (ikut agensi)", "Pejabat", "Kantin"], a: 1, img: "https://placehold.co/600x300/be185d/FFF?text=Komponen+F" },
             { q: "Bagi Sekolah, apakah kriteria penting di Bilik Darjah?", options: ["Jadual waktu & pelan kebakaran dipapar", "Ada aircond", "Ada sofa", "Ada TV"], a: 0, img: "https://placehold.co/600x300/be185d/FFF?text=Bilik+Darjah" },
             { q: "Di Hospital/Klinik, pengurusan sisa perlu?", options: ["Dicampur aduk", "Diasingkan (Klinikal, Domestik, Tajam)", "Dibuang di sungai", "Dibakar terbuka"], a: 1, img: "https://placehold.co/600x300/be185d/FFF?text=Sisa+Klinikal" },
@@ -428,10 +431,9 @@
 
         const LearningModule = () => {
             const [slideIndex, setSlideIndex] = useState(0);
-            const [userSelection, setUserSelection] = useState(null); // For Hook Slide
-            const [activePoint, setActivePoint] = useState(null); // For Info Pop-up
+            const [userSelection, setUserSelection] = useState(null); 
+            const [activePoint, setActivePoint] = useState(null); 
 
-            // Hook Interactive Handler
             const renderHookContent = (slide) => {
                 if (!userSelection) {
                     return (
@@ -476,18 +478,15 @@
 
                     <div className="w-full aspect-video bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 relative flex flex-col">
                         
-                        {/* Slide Grid */}
                         <div className="flex-grow grid grid-cols-12 h-full">
                             
-                            {/* LEFT COLUMN: Visual / Pop-up Area */}
+                            {/* LEFT COLUMN */}
                             <div className={`col-span-5 relative bg-gradient-to-br ${currentSlide.bgGradient || "from-slate-700 to-slate-800"} flex flex-col justify-end p-8 overflow-hidden`}>
                                 
-                                {/* Background Decorative Icon */}
                                 <div className="absolute top-0 left-0 p-6 opacity-10 text-white transition-opacity duration-500">
                                     <Icons.Presentation size={120} />
                                 </div>
 
-                                {/* Base Title (Visible when no pop-up) */}
                                 <div className={`relative z-10 transition-all duration-300 ${activePoint !== null ? 'opacity-0 translate-y-10' : 'opacity-100 translate-y-0'}`}>
                                     <div className="w-12 h-1 bg-white/50 mb-4 rounded-full"></div>
                                     <h3 className="text-2xl lg:text-3xl font-extrabold text-white leading-tight shadow-sm drop-shadow-md">
@@ -505,17 +504,32 @@
                                             <Icons.XCircle size={28} />
                                         </button>
                                         
-                                        <div className="mb-4 text-blue-600">
-                                            {React.createElement(currentSlide.interactiveItems[activePoint].icon, { size: 48 })}
-                                        </div>
-                                        
-                                        <h4 className="text-xl font-bold mb-3 border-b pb-2 border-slate-100">
-                                            {currentSlide.interactiveItems[activePoint].label}
-                                        </h4>
-                                        
-                                        <p className="text-base leading-relaxed text-slate-600">
-                                            {currentSlide.interactiveItems[activePoint].detail}
-                                        </p>
+                                        {currentSlide.interactiveItems[activePoint].image ? (
+                                            <div className="flex flex-col items-center h-full justify-center">
+                                                <h4 className="text-lg font-bold mb-2 text-blue-800">{currentSlide.interactiveItems[activePoint].label}</h4>
+                                                <div className="bg-slate-100 rounded-xl p-4 flex items-center justify-center border-2 border-dashed border-slate-300 w-full flex-grow overflow-hidden">
+                                                    <img 
+                                                        src={currentSlide.interactiveItems[activePoint].image} 
+                                                        alt="QR Code Kriteria Audit"
+                                                        className="max-h-full max-w-full object-contain shadow-lg rounded-lg"
+                                                        onerror="this.onerror=null; this.src='https://placehold.co/300x300/1e293b/FFF?text=Muat+Naik+QR+GitHub';"
+                                                    />
+                                                </div>
+                                                <p className="mt-4 text-xs text-slate-500 text-center italic">{currentSlide.interactiveItems[activePoint].detail}</p>
+                                            </div>
+                                        ) : (
+                                            <React.Fragment>
+                                                <div className="mb-4 text-blue-600">
+                                                    {React.createElement(currentSlide.interactiveItems[activePoint].icon, { size: 48 })}
+                                                </div>
+                                                <h4 className="text-xl font-bold mb-3 border-b pb-2 border-slate-100">
+                                                    {currentSlide.interactiveItems[activePoint].label}
+                                                </h4>
+                                                <p className="text-base leading-relaxed text-slate-600">
+                                                    {currentSlide.interactiveItems[activePoint].detail}
+                                                </p>
+                                            </React.Fragment>
+                                        )}
                                         
                                         <div className="mt-6 text-center text-xs text-slate-400 font-medium uppercase tracking-widest">
                                             Klik ikon X untuk tutup
@@ -524,7 +538,7 @@
                                 )}
                             </div>
 
-                            {/* RIGHT COLUMN: Interactive List */}
+                            {/* RIGHT COLUMN */}
                             <div className="col-span-7 p-8 bg-white flex flex-col justify-center overflow-y-auto custom-scroll relative">
                                 {currentSlide.type === 'interactive' ? (
                                     renderHookContent(currentSlide)
@@ -536,7 +550,7 @@
 
                                         {currentSlide.interactiveItems && (
                                             <div className="space-y-3">
-                                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Klik untuk info lanjut:</p>
+                                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Klik untuk paparan:</p>
                                                 {currentSlide.interactiveItems.map((item, i) => (
                                                     <button
                                                         key={i}
@@ -611,13 +625,11 @@
                         onClick={() => setIsFlipped(!isFlipped)}
                     >
                         <div className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}>
-                            {/* Back (Answer) */}
                             <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-3xl shadow-xl flex flex-col items-center justify-center p-8 text-center" style={{transform: "rotateY(180deg)"}}>
                                 <span className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">JAWAPAN</span>
                                 <p className="text-2xl font-medium leading-relaxed">{flashcardsData[currentIndex].a}</p>
                             </div>
 
-                            {/* Front (Question) */}
                             <div className="absolute w-full h-full backface-hidden bg-white rounded-3xl shadow-xl border-b-4 border-blue-600 flex flex-col items-center justify-center p-8 text-center hover:shadow-2xl transition-shadow bg-white">
                                 <span className="text-xs font-bold text-blue-500 uppercase tracking-widest mb-4">SOALAN {currentIndex + 1} / {flashcardsData.length}</span>
                                 <h3 className="text-3xl font-bold text-slate-800">{flashcardsData[currentIndex].q}</h3>
