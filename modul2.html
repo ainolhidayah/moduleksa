@@ -19,7 +19,6 @@
             background-color: #fffaf1; 
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             display: flex; flex-direction: column;
-            /* FIXED: Padding bawah disesuaikan untuk butang */
             padding: 35px 50px 80px 50px; 
             position: relative;
             overflow: hidden;
@@ -59,21 +58,16 @@
 
         .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 2; }
 
-        /* 3. INTERACTIVE NAVIGATION (DIBETULKAN) */
+        /* 3. INTERACTIVE NAVIGATION */
         .nav-footer {
             position: absolute; bottom: 25px; left: 0; width: 100%;
             display: flex; 
-            /* Mengasingkan butang kiri dan kanan */
             justify-content: flex-start; 
-            padding: 0 50px; /* Jarak dari tepi */
+            padding: 0 50px;
             box-sizing: border-box;
             z-index: 20;
         }
-        
-        /* Logik: Butang terakhir (Seterusnya) sentiasa ke kanan */
-        .nav-footer .nav-btn:last-child {
-            margin-left: auto;
-        }
+        .nav-footer .nav-btn:last-child { margin-left: auto; }
 
         .nav-btn {
             background: #005088; color: #fff; padding: 10px 20px; border-radius: 6px;
@@ -89,6 +83,7 @@
         .flip-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; perspective: 1000px; }
         .flip-card { height: 260px; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
         .flip-card:hover { transform: rotateY(180deg); }
+        
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%;
             backface-visibility: hidden; border-radius: 12px; padding: 20px;
@@ -98,11 +93,62 @@
         .card-front { background-color: #fff; border-top: 6px solid #11caa0; }
         .card-front i { font-size: 40px; color: #11caa0; margin-bottom: 15px; animation: float 3s ease-in-out infinite; }
         .card-front h3 { color: #334155; font-size: 20px; }
+        
         .card-back { background-color: #005088; color: #fff; transform: rotateY(180deg); }
         .card-back h3 { color: #11caa0; margin-bottom: 8px; font-size: 18px; }
         .card-back p { color: #f3f0df; font-size: 13px; line-height: 1.4; }
         
-        /* DIBETULKAN: Holder Imej dalam Kad */
+        /* ---------------------------------------------------- */
+        /* CSS KHUSUS UNTUK SLIDE 10 (Photo Flip Cards) */
+        /* ---------------------------------------------------- */
+        .photo-card .card-front {
+            padding: 0 !important;
+            border: none !important;
+            overflow: hidden;
+            background-color: #f1f5f9; /* Background neutral jika gambar loading */
+        }
+        
+        .photo-card .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 1;
+        }
+        
+        /* Overlay Gelap supaya tulisan nampak */
+        .photo-card .card-front::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 60%);
+            z-index: 2;
+        }
+
+        .photo-card .card-front h3 {
+            position: relative;
+            z-index: 3;
+            color: #ffffff !important;
+            margin-top: auto; /* Tolak teks ke bawah */
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .photo-card .card-back {
+            padding: 30px 20px;
+        }
+        
+        .photo-card .card-back i {
+            font-size: 40px;
+            color: #11caa0;
+            margin-bottom: 15px;
+        }
+        /* ---------------------------------------------------- */
+
         .card-img-holder {
             width: 100%; height: 80px; 
             border: 2px dashed rgba(255,255,255,0.4); border-radius: 8px;
@@ -110,9 +156,7 @@
             margin-bottom: 15px; overflow: hidden;
             flex-shrink: 0;
         }
-        .card-img-holder img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
+        .card-img-holder img { width: 100%; height: 100%; object-fit: cover; }
 
         .quiz-box { background: #ffedd5; border: 2px dashed #f97316; border-radius: 15px; padding: 25px; width: 100%; position: relative; }
         .quiz-badge { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: #f97316; color: #fff; padding: 6px 20px; border-radius: 50px; font-weight: 700; font-size: 13px; letter-spacing: 1px; }
@@ -120,40 +164,19 @@
         .reveal-btn:hover { background: #ea580c; transform: translateY(-2px); }
         .reveal-content { display: none; margin-top: 10px; padding: 12px; background: rgba(255,255,255,0.8); border-radius: 8px; border-left: 4px solid #f97316; }
 
-        .sheet-placeholder {
-            width: 100%; height: 350px;
-            background: #f0fdf4; border: 3px dashed #16a34a; border-radius: 15px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; transition: 0.3s;
-        }
+        .sheet-placeholder { width: 100%; height: 350px; background: #f0fdf4; border: 3px dashed #16a34a; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: 0.3s; }
         .sheet-placeholder:hover { background: #dcfce7; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .sheet-icon { font-size: 60px; color: #16a34a; margin-bottom: 15px; }
         
-        .g-sheet-btn {
-            background: #16a34a; color: white; padding: 10px 20px;
-            border-radius: 6px; text-decoration: none; font-weight: 700;
-            display: inline-flex; align-items: center; gap: 8px;
-            margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s;
-            border: none; cursor: pointer; font-size: 14px;
-        }
+        .g-sheet-btn { background: #16a34a; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; border: none; cursor: pointer; font-size: 14px; }
         .g-sheet-btn:hover { background: #15803d; box-shadow: 0 6px 8px rgba(0,0,0,0.15); transform: translateY(-2px); }
 
-        .drive-link-btn {
-            display: inline-block; margin-top: 15px; padding: 8px 16px;
-            background-color: #ffffff; color: #005088; text-decoration: none;
-            border-radius: 6px; font-weight: 700; font-size: 13px;
-            transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
+        .drive-link-btn { display: inline-block; margin-top: 15px; padding: 8px 16px; background-color: #ffffff; color: #005088; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 13px; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .drive-link-btn:hover { background-color: #e0f2fe; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         .drive-link-btn i { margin-right: 6px; color: #16a34a; }
 
-        /* QUIZ STYLES */
         .final-quiz-container { display: flex; flex-direction: column; height: 100%; width: 100%; position: relative; }
-        .quiz-header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 10px; background: #e0f2fe; padding: 8px 20px; 
-            border-radius: 8px; border-left: 5px solid #005088; flex-shrink: 0; 
-        }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #e0f2fe; padding: 8px 20px; border-radius: 8px; border-left: 5px solid #005088; flex-shrink: 0; }
         .quiz-timer { font-weight: 700; color: #64748b; font-size: 16px; display: flex; align-items: center; gap: 8px; }
         .question-timer-box { background: #fff; padding: 5px 15px; border-radius: 20px; border: 2px solid #ef4444; color: #ef4444; font-weight: 700; display: flex; align-items: center; gap: 5px; font-size: 18px; min-width: 100px; justify-content: center; }
         .question-timer-box.hurry { animation: timerPulse 0.5s infinite; background-color: #fee2e2; }
@@ -162,13 +185,7 @@
         .pause-btn:hover { opacity: 0.9; }
         .pause-btn.resume { background: #16a34a; }
 
-        .question-card { 
-            background: white; padding: 20px; border-radius: 12px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
-            flex-grow: 1; min-height: 0; 
-            display: flex; flex-direction: column; 
-            border: 1px solid #cbd5e1; overflow-y: auto; 
-        }
+        .question-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex-grow: 1; min-height: 0; display: flex; flex-direction: column; border: 1px solid #cbd5e1; overflow-y: auto; }
         .question-text { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #334155; }
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .option-btn { background: #f1f5f9; border: 2px solid #cbd5e1; padding: 12px 15px; border-radius: 8px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 14px; font-family: "DM Sans", sans-serif; color: #334155; font-weight: 500; display: flex; gap: 10px; align-items: center; }
@@ -177,36 +194,20 @@
         .option-btn.wrong { background: #fee2e2; border-color: #991b1b; color: #991b1b; }
         .quiz-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.98); z-index:30; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; border-radius: 8px; }
         .result-score { font-size: 60px; font-weight: 900; color: #005088; margin: 10px 0; }
-        .quiz-instruction { 
-            text-align: center; color: #ef4444; font-size: 13px; 
-            margin-top: 10px; margin-bottom: 5px;
-            font-weight: 600; background: #fee2e2; padding: 8px; 
-            border-radius: 5px; flex-shrink: 0; 
-        }
+        .quiz-instruction { text-align: center; color: #ef4444; font-size: 13px; margin-top: 10px; margin-bottom: 5px; font-weight: 600; background: #fee2e2; padding: 8px; border-radius: 5px; flex-shrink: 0; }
 
         .interactive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; height: 340px; }
-        .grid-card {
-            background: white; border: 1px solid #cdd6e2; border-radius: 10px; padding: 15px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
-        }
+        .grid-card { background: white; border: 1px solid #cdd6e2; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
         .grid-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: #11caa0; }
         .grid-card i { font-size: 40px; color: #005088; margin-bottom: 10px; transition: 0.3s; }
         .grid-card h3 { margin: 0; color: #334155; font-size: 18px; transition: 0.3s; }
-        .grid-details { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #005088; color: white; padding: 20px; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: 0.3s; transform: scale(0.9);
-        }
+        .grid-details { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #005088; color: white; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; transform: scale(0.9); }
         .grid-details p { color: white !important; font-size: 14px; }
         .grid-details h3 { color: #11caa0 !important; margin-bottom: 10px; font-size: 18px; }
         .grid-card:hover .grid-details { opacity: 1; transform: scale(1); }
 
         .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; }
         .image-wrapper { border-radius: 10px; height: 300px; overflow: hidden; border: 1px solid #cdd6e2; width: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; position: relative; }
-        
-        /* DIBETULKAN: Gaya imej agar penuh dalam kontainer */
         .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
         .activity-box { background: #003366; color: #fff; padding: 25px; border-radius: 15px; border-left: 8px solid #11caa0; transition: transform 0.3s; }
@@ -220,68 +221,36 @@
 
         .drawer-container { display: flex; gap: 15px; width: 100%; height: 300px; }
         .drawer-stack { flex: 1; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-        .drawer-btn {
-            background: linear-gradient(to right, #f1f5f9, #e2e8f0);
-            border: 2px solid #cbd5e1; border-radius: 6px; padding: 15px 20px;
-            font-weight: 700; color: #334155; cursor: pointer; text-align: left;
-            transition: 0.3s; position: relative; font-size: 14px;
-            display: flex; justify-content: space-between; align-items: center; user-select: none;
-        }
+        .drawer-btn { background: linear-gradient(to right, #f1f5f9, #e2e8f0); border: 2px solid #cbd5e1; border-radius: 6px; padding: 15px 20px; font-weight: 700; color: #334155; cursor: pointer; text-align: left; transition: 0.3s; position: relative; font-size: 14px; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         .drawer-btn:hover, .drawer-btn.active { background: #005088; color: white; border-color: #003366; transform: translateX(5px); }
         .drawer-btn i { opacity: 0; transition: 0.3s; }
         .drawer-btn.active i { opacity: 1; }
-        .drawer-content-display {
-            flex: 1.5; background: white; border: 3px solid #11caa0; border-radius: 12px;
-            padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; position: relative; overflow: hidden;
-        }
+        .drawer-content-display { flex: 1.5; background: white; border: 3px solid #11caa0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
         .drawer-content-display.flash { animation: highlightFlash 0.5s ease; }
         .drawer-icon { font-size: 50px; color: #11caa0; margin-bottom: 15px; }
 
         .parking-sim { width: 100%; height: 300px; background: #e2e8f0; border-radius: 12px; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid #cbd5e1; }
         .parking-item { transition: 0.5s; text-align: center; position: relative; z-index: 2; }
         .parking-item i { font-size: 80px; color: #64748b; transition: 0.3s; }
-        .parking-lines {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            width: 180px; height: 180px; border: 5px dashed #f97316; border-radius: 10px;
-            transition: 0.5s; opacity: 0; z-index: 1; background: rgba(249, 115, 22, 0.05);
-        }
-        .parking-label { 
-            margin-top: 10px; background: #005088; color: white; padding: 5px 15px; 
-            border-radius: 4px; opacity: 0; transition: 0.5s; transform: translateY(10px); font-weight: 700; font-size: 13px;
-        }
+        .parking-lines { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); width: 180px; height: 180px; border: 5px dashed #f97316; border-radius: 10px; transition: 0.5s; opacity: 0; z-index: 1; background: rgba(249, 115, 22, 0.05); }
+        .parking-label { margin-top: 10px; background: #005088; color: white; padding: 5px 15px; border-radius: 4px; opacity: 0; transition: 0.5s; transform: translateY(10px); font-weight: 700; font-size: 13px; }
         .parking-sim.active .parking-lines { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         .parking-sim.active .parking-item i { color: #005088; transform: translateY(-8px); }
         .parking-sim.active .parking-label { opacity: 1; transform: translateY(0); }
         .tap-hint { position: absolute; bottom: 15px; color: #005088; font-size: 13px; font-weight: 700; animation: pulseEmerald 2s infinite; background: rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 15px; }
 
         .hook-container { display: flex; gap: 30px; width: 100%; height: 100%; justify-content: center; align-items: center; }
-        .hook-choice { 
-            width: 45%; height: 350px; border-radius: 15px; position: relative; cursor: pointer; overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; border: 4px solid transparent;
-        }
+        .hook-choice { width: 45%; height: 350px; border-radius: 15px; position: relative; cursor: pointer; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; border: 4px solid transparent; }
         .hook-choice:hover { transform: translateY(-10px); }
         .hook-choice img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .hook-choice:hover img { transform: scale(1.1); }
-        .hook-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; opacity: 0; transition: 0.3s;
-        }
+        .hook-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
         .hook-choice:hover .hook-overlay { opacity: 1; }
         .hook-overlay h2 { color: white; font-size: 28px; margin-bottom: 10px; }
         .hook-overlay p { color: #f3f0df; font-size: 16px; text-align: center; padding: 0 20px; }
         .hook-choice.bad:hover { border-color: #ef4444; }
         .hook-choice.good:hover { border-color: #11caa0; }
-        
-        .hook-label {
-            position: absolute; top: 15px; left: 15px;
-            background: #005088; color: white;
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 24px; font-weight: 900; z-index: 5;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: 2px solid white;
-        }
+        .hook-label { position: absolute; top: 15px; left: 15px; background: #005088; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: 900; z-index: 5; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: 2px solid white; }
 
     </style>
 </head>
@@ -409,7 +378,7 @@
     </div>
 </div>
 
-<!-- SLIDE 6: Quiz 1 (DIBETULKAN DENGAN TAG IMG SEBENAR) -->
+<!-- SLIDE 6: Quiz 1 -->
 <div class="slide-container" id="slide6">
     <div class="slide-number">6 / 14</div>
     <div class="content-area">
@@ -417,8 +386,8 @@
             <div class="quiz-badge">UJI MINDA 1</div>
             <div class="two-column" style="align-items: center;">
                 <div class="image-wrapper">
-                    <!-- TAG IMG UNTUK PELAN LANTAI -->
-                    <img src="Pelan_Lantai_Pejabat.jpg" alt="Pelan Lantai" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Gambar+Pelan+Lantai+Tiada';">
+                    <!-- TAG IMG UNTUK PELAN LANTAI (TANPA EXTERNAL LINK) -->
+                    <img src="Pelan_Lantai_Pejabat.jpg" alt="Pelan Lantai">
                 </div>
                 <div>
                     <h3>Isu Zon "No Man's Land"</h3>
@@ -519,7 +488,7 @@
     </div>
 </div>
 
-<!-- SLIDE 9: Quiz 2 (DIBETULKAN DENGAN TAG IMG SEBENAR) -->
+<!-- SLIDE 9: Quiz 2 -->
 <div class="slide-container" id="slide9">
     <div class="slide-number">9 / 14</div>
     <div class="content-area">
@@ -539,8 +508,8 @@
                     <p id="eksa-principle" style="margin-top: 15px; font-weight: 700; color: #064e3b; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; display: none; font-size:13px;">Prinsip EKSA: Keseragaman & Imej Korporat.</p>
                 </div>
                 <div class="image-wrapper">
-                    <!-- TAG IMG UNTUK MEJA BERSERAK -->
-                    <img src="Meja_Berselerak.jpg" alt="Meja Berselerak" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Gambar+Meja+Berselerak+Tiada';">
+                    <!-- TAG IMG UNTUK MEJA BERSERAK (TANPA EXTERNAL LINK) -->
+                    <img src="Meja_Berselerak.jpg" alt="Meja Berselerak">
                 </div>
             </div>
         </div>
@@ -561,45 +530,62 @@
     </script>
 </div>
 
-<!-- SLIDE 10: Komponen C (DIBETULKAN DENGAN TAG IMG SEBENAR) -->
+<!-- SLIDE 10: Komponen C (DIKEMASKINI: NAMA FAIL SAHAJA) -->
 <div class="slide-container" id="slide10">
     <div class="slide-number">10 / 14</div>
     <h2 class="slide-title">Komponen C: Tempat Umum</h2>
     <div class="content-area">
-        <div class="flip-container">
+        <!-- Tambah class 'photo-card' untuk style khusus -->
+        <div class="flip-container photo-card">
+            
             <!-- PANTRI -->
             <div class="flip-card">
-                <div class="card-front"><i class="fas fa-coffee"></i><h3>PANTRI</h3></div>
+                <!-- Depan: Gambar Penuh -->
+                <div class="card-front">
+                    <!-- MENGGUNAKAN NAMA FAIL ASAL SAHAJA -->
+                    <img src="Gambar_Pantri.jpg" alt="Pantri">
+                    <h3>PANTRI</h3>
+                </div>
+                <!-- Belakang: Info Sahaja (Tiada Gambar) -->
                 <div class="card-back">
-                    <div class="card-img-holder">
-                        <img src="Gambar_Pantri.jpg" alt="Pantri" onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Gambar+Pantri+Tiada';">
-                    </div>
+                    <i class="fas fa-coffee"></i>
                     <h3>Ruang Guna Sama</h3>
                     <p>Sistem Food Tagging, sinki kering, dan jadual tugas dipatuhi.</p>
                 </div>
             </div>
+
             <!-- MESYUARAT -->
             <div class="flip-card">
-                <div class="card-front"><i class="fas fa-handshake"></i><h3>MESYUARAT</h3></div>
+                <!-- Depan: Gambar Penuh -->
+                <div class="card-front">
+                    <!-- MENGGUNAKAN NAMA FAIL ASAL SAHAJA -->
+                    <img src="Gambar_Bilik_Mesyuarat.jpg" alt="Mesyuarat">
+                    <h3>MESYUARAT</h3>
+                </div>
+                <!-- Belakang: Info Sahaja (Tiada Gambar) -->
                 <div class="card-back">
-                    <div class="card-img-holder">
-                        <img src="Gambar_Bilik_Mesyuarat.jpg" alt="Mesyuarat" onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Gambar+Mesyuarat+Tiada';">
-                    </div>
+                    <i class="fas fa-handshake"></i>
                     <h3>Bilik Diskusi</h3>
                     <p>Kerusi dirapatkan, papan putih dipadam selepas digunakan.</p>
                 </div>
             </div>
+
             <!-- BILIK FAIL -->
             <div class="flip-card">
-                <div class="card-front"><i class="fas fa-archive"></i><h3>BILIK FAIL</h3></div>
+                <!-- Depan: Gambar Penuh -->
+                <div class="card-front">
+                    <!-- MENGGUNAKAN NAMA FAIL ASAL SAHAJA -->
+                    <img src="Gambar_Bilik_Fail.jpg" alt="Bilik Fail">
+                    <h3>BILIK FAIL</h3>
+                </div>
+                <!-- Belakang: Info Sahaja (Tiada Gambar) -->
                 <div class="card-back">
-                    <div class="card-img-holder">
-                        <img src="Gambar_Bilik_Fail.jpg" alt="Bilik Fail" onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Gambar+Fail+Tiada';">
-                    </div>
+                    <i class="fas fa-archive"></i>
                     <h3>Arkib & Rekod</h3>
                     <p>Indeks fail efisien & tetulang fail seragam mengikut unit.</p>
                 </div>
             </div>
+
         </div>
     </div>
     <div class="nav-footer">
