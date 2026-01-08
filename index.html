@@ -196,18 +196,19 @@
                         <div className="h-1 w-20 bg-blue-600 mx-auto mt-4 rounded-full"></div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
                         
-                        {/* Penceramah 1 (Kini Azhan Ahmad - Kiri) */}
+                        {/* Penceramah 1 (Azhan Ahmad - Kiri) */}
                         <div className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300">
-                            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-emerald-100 mb-6 shadow-md relative">
+                            {/* DITUKAR: Bingkai Segi Empat & Object Contain */}
+                            <div className="w-56 h-72 rounded-xl overflow-hidden border-4 border-emerald-100 mb-6 shadow-md relative bg-slate-50">
                                 <img 
                                     src="penceramah_azhan.jpg" 
                                     alt="Azhan Ahmad" 
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                     onError={(e) => {
                                         e.target.onerror = null; 
-                                        e.target.src = 'https://placehold.co/150x150?text=Azhan';
+                                        e.target.src = 'https://placehold.co/300x400?text=Azhan';
                                     }}
                                 />
                             </div>
@@ -215,16 +216,17 @@
                             <p className="text-emerald-600 font-medium text-sm mb-4">Penceramah</p>
                         </div>
 
-                        {/* Penceramah 2 (Kini Ainol Hidayah - Kanan) */}
+                        {/* Penceramah 2 (Ainol Hidayah - Kanan) */}
                         <div className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300">
-                            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-100 mb-6 shadow-md relative">
+                            {/* DITUKAR: Bingkai Segi Empat & Object Contain */}
+                            <div className="w-56 h-72 rounded-xl overflow-hidden border-4 border-blue-100 mb-6 shadow-md relative bg-slate-50">
                                 <img 
                                     src="penceramah_ainol.jpg" 
                                     alt="Ainol Hidayah" 
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                     onError={(e) => {
                                         e.target.onerror = null; 
-                                        e.target.src = 'https://placehold.co/150x150?text=Ainol';
+                                        e.target.src = 'https://placehold.co/300x400?text=Ainol';
                                     }}
                                 />
                             </div>
