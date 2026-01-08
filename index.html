@@ -10,6 +10,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -54,7 +55,7 @@
                 icon: Icons.Book,
                 color: "bg-blue-600",
                 gradient: "from-blue-500 to-blue-700",
-                link: "modul1.html" // Pastikan fail ini wujud
+                link: "modul1.html" 
             },
             {
                 id: 2,
@@ -65,7 +66,7 @@
                 icon: Icons.Settings,
                 color: "bg-emerald-600",
                 gradient: "from-emerald-500 to-emerald-700",
-                link: "modul2.html" // Pastikan fail ini wujud
+                link: "modul2.html" 
             },
             {
                 id: 3,
@@ -76,7 +77,7 @@
                 icon: Icons.CheckCircle,
                 color: "bg-purple-600",
                 gradient: "from-purple-500 to-purple-700",
-                link: "modul3.html" // Pastikan nama fail Modul 3 anda ialah 'modul3.html'
+                link: "modul3.html" 
             }
         ];
 
@@ -185,6 +186,60 @@
             </div>
         );
 
+        // --- KOMPONEN PENCERAMAH (BARU) ---
+        const SpeakersSection = () => {
+            return (
+                <div className="max-w-6xl mx-auto px-6 py-16">
+                    <div className="text-center mb-12">
+                        <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">Pakar Rujuk</span>
+                        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 mt-2">Tenaga Pengajar</h2>
+                        <div className="h-1 w-20 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-4xl mx-auto">
+                        
+                        {/* Penceramah 1 */}
+                        <div className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300">
+                            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-100 mb-6 shadow-md relative">
+                                <img 
+                                    src="penceramah_ainol.jpg" 
+                                    alt="Ainol Hidayah" 
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        e.target.onerror = null; 
+                                        e.target.src = 'https://placehold.co/150x150?text=Ainol';
+                                    }}
+                                />
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-800 mb-1">
+                                Ainol Hidayah Abdul Rauof 
+                                <span className="text-sm font-semibold text-slate-500 ml-2 bg-slate-100 px-2 py-1 rounded-md">B.S.K</span>
+                            </h3>
+                            <p className="text-blue-600 font-medium text-sm mb-4">Penceramah</p>
+                        </div>
+
+                        {/* Penceramah 2 */}
+                        <div className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300">
+                            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-emerald-100 mb-6 shadow-md relative">
+                                <img 
+                                    src="penceramah_azhan.jpg" 
+                                    alt="Azhan Ahmad" 
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        e.target.onerror = null; 
+                                        e.target.src = 'https://placehold.co/150x150?text=Azhan';
+                                    }}
+                                />
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-800 mb-1">Azhan Ahmad</h3>
+                            <p className="text-emerald-600 font-medium text-sm mb-4">Penceramah</p>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        };
+
         const Dashboard = () => {
             return (
                 <div className="flex-grow flex flex-col bg-slate-50">
@@ -193,13 +248,16 @@
                     <HeroSlider />
 
                     {/* Modules Grid */}
-                    <main className="max-w-7xl mx-auto px-6 pb-24 -mt-20 relative z-20">
+                    <main className="max-w-7xl mx-auto px-6 pb-12 -mt-20 relative z-20">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {modulesData.map((mod) => (
                                 <ModuleCard key={mod.id} mod={mod} />
                             ))}
                         </div>
                     </main>
+
+                    {/* Speakers Section (Ditambah) */}
+                    <SpeakersSection />
 
                     {/* Footer */}
                     <footer className="bg-white border-t py-12 mt-auto">
@@ -222,4 +280,3 @@
     </script>
 </body>
 </html>
-
